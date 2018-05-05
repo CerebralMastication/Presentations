@@ -1,5 +1,5 @@
 
-/* ordered and unordered list styles */
+/* body text, ordered and unordered list styles */
 .reveal ul, 
 .reveal ol, 
 .reveal p{
@@ -17,4 +17,7 @@
    font-size: 40px;
    font-weight: bold;
    color: green;
+}
+.small-code pre code {
+  font-size: 125%;
 }

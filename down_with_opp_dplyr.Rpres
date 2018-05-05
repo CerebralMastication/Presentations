@@ -29,18 +29,155 @@ JD Who?
 @cmastication
 
 ![](down_with_opp_dplyr-figure/JDL-SO.png)
-Learning out loud
+Learning out loud - Since 2009
 
-Slide With Code
+dplyr - set up example
 ========================================================
 
 ```{r}
-summary(cars)
-```
+library(tidyverse)
 
-Slide With Plot
+mtcars %>%
+  rownames_to_column( var = 'longname') ->
+df_cars
+```
+dplyr - select
 ========================================================
 
-```{r, echo=FALSE}
-plot(cars)
+```{r}
+df_cars %>% 
+  select(longname, cyl, hp) %>%
+  head
+  
 ```
+
+dplyr - filter
+========================================================
+
+```{r }
+df_cars %>% 
+  select(longname, cyl, hp) %>%
+  filter( cyl == 8) %>%
+  head
+```
+
+dplyr - mutate
+========================================================
+
+```{r }
+df_cars %>% 
+  select(longname, cyl, hp) %>%
+  filter( cyl == 8) %>%
+  mutate( sqrt_hp = sqrt(hp), 
+          shortname = word(longname, 1) ) %>%
+  head
+```
+
+
+dplyr - group_by
+========================================================
+
+```{r }
+df_cars %>% 
+  select(longname, cyl, hp) %>%
+  filter( cyl == 8) %>%
+  mutate( sqrt_hp = sqrt(hp), 
+          shortname = word(longname, 1) ) %>%
+  select( - longname) %>%
+  group_by(shortname) %>%
+  head
+```
+
+clean up - note changes
+========================================================
+
+```{r }
+df_cars %>% 
+  select(longname, cyl, hp) %>%
+  mutate( shortname = word(longname, 1) ) %>%
+  select( - longname)  ->
+df_cars_limited
+head( df_cars_limited )
+```
+
+tangent: why pipe?
+========================================================
+
+```{r }
+
+head(
+  select(
+    mutate( 
+      select(df_cars, longname, cyl, hp) , 
+      shortname = word(longname, 1) 
+      ), 
+    -longname 
+    )
+)
+```
+
+tangent: why pipe? (cont)
+========================================================
+class: small-code
+```{r }
+df_cars_3vars <-
+  select(df_cars, longname, cyl, hp)
+
+df_cars_3vars_shortname <-
+  mutate( df_cars_3vars, 
+          shortname = word(df_cars_3vars$longname, 1) ) 
+
+df_cars_3vars_shortname <-
+  select( df_cars_3vars_shortname, - longname)  
+
+head( df_cars_3vars_shortname )
+```
+
+Before the tangent...
+========================================================
+
+```{r }
+df_cars %>% 
+  select(longname, cyl, hp) %>%
+  mutate( shortname = word(longname, 1) ) %>%
+  select( - longname)  ->
+df_cars_limited
+head( df_cars_limited )
+```
+
+
+dplyr - summarize
+========================================================
+
+```{r }
+df_cars_limited %>%
+  group_by(shortname, cyl)%>% 
+  summarize( avg_hp = mean(hp) )  %>%
+  head(3)
+```
+<font size=50%> Note the grouping change. wtf? </font>
+
+dplyr - join
+========================================================
+
+```{r }
+cyl_map <- data.frame(
+  cyl = c(4,6,8), 
+  cyl_name = c('four','six','eight'))
+
+df_cars_limited %>% 
+  left_join( cyl_map ) %>%
+  head(3)
+```
+
+dplyr - case_when (+ sort)
+========================================================
+class: small-code
+```{r }
+df_cars_limited %>% 
+  mutate(Pow= case_when( hp>200 & cyl>=8 ~ 'Strong', 
+                     TRUE ~ 'Weak') ) %>%
+  arrange(hp)
+```
+
+
