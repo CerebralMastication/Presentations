@@ -1,17 +1,35 @@
+
 Down with OPP (Other People's Pipes)
 ========================================================
 author: JD Long
 date:   May 9, 2018
-autosize: true
+font-family: 'Helvetica'
+#incremental: true
+css: custom.css
 
-Yo. Where are we going?
+Where are we going?
 ========================================================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
+- `dplyr` can make you more productive
+- `dplyr` can write SQL for you
+- Letting `dplyr` write SQL gives you new abilities
+- One really infectious and controversial idea!! 
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+Twitter Voting Controversy!
+========================================================
+
+I will tweet a survey:
+- @cmastication
+- #rstatsnyc
+
+Twitter Up!
+
+JD Who?
+========================================================
+@cmastication
+
+![](down_with_opp_dplyr-figure/JDL-SO.png)
+Learning out loud
 
 Slide With Code
 ========================================================

@@ -1,0 +1,20 @@
+
+/* ordered and unordered list styles */
+.reveal ul, 
+.reveal ol, 
+.reveal p{
+    font-size: 180%;
+    line-height: 110%;
+    list-style-type: disc;
+}
+
+/* slide titles */
+.reveal h3 { 
+  font-size: 200%;
+}
+/* heading for slides with two hashes ## */
+.reveal .slides section .slideContent h2 {
+   font-size: 40px;
+   font-weight: bold;
+   color: green;
+}
