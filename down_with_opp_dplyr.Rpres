@@ -24,12 +24,15 @@ I will tweet a survey:
 
 Twitter Up!
 
+
 JD Who?
 ========================================================
-@cmastication
+<div align="center">
+<img src="down_with_opp_dplyr-figure/twitter.png" width=600 >
+<br>
+<img src="down_with_opp_dplyr-figure/JDL-SO.png" width=600 >
+</div>
 
-![](down_with_opp_dplyr-figure/JDL-SO.png)
-Learning out loud - Since 2009
 
 dplyr - set up example
 ========================================================
@@ -180,4 +183,60 @@ df_cars_limited %>%
   arrange(hp)
 ```
 
+database time!
+========================================================
 
+```{r }
+con <- DBI::dbConnect(RSQLite::SQLite(), 
+                      path = ":memory:")
+
+copy_to(con, df_cars, "df_cars",
+  temporary = FALSE)
+
+df_cars_db <- tbl(con, "df_cars")
+  
+
+```
+what are these things?
+========================================================
+
+```{r }
+class(df_cars)
+
+class(as.tibble(df_cars))
+
+class(df_cars_db)
+  
+```
+
+same "clean up" as before... almost
+========================================================
+
+```{r }
+df_cars_db %>% 
+  group_by( cyl) %>%
+  summarize(mean(hp))  ->
+mean_hp_by_cyl
+head( mean_hp_by_cyl )
+```
+
+what's in mean_hp_by_cyl?
+========================================================
+
+```{r }
+mean_hp_by_cyl %>%
+  show_query 
+```
+```
+<SQL>
+SELECT `cyl`, `hp`, `shortname`
+FROM (SELECT `longname`, `cyl`, `hp`, WORD(`longname`, 1.0) AS `shortname`
+FROM (SELECT `longname`, `cyl`, `hp`
+FROM `df_cars`))
+```
+lazy af
+========================================================
+
+```{r }
+collect(df_cars_limited_db )
+```
