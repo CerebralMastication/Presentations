@@ -33,6 +33,14 @@ JD Who?
 <img src="down_with_opp_dplyr-figure/JDL-SO.png" width=600 >
 </div>
 
+We're Hiring
+========================================================
+
+Risk Analyst 
+- early/mid career 
+- Not R centric
+- Team with me
+
 
 dplyr - set up example
 ========================================================
@@ -182,6 +190,11 @@ df_cars_limited %>%
                      TRUE ~ 'Weak') ) %>%
   arrange(hp)
 ```
+mutate vs. summarize
+========================================================
+`mutate` adds a column but keeps same # rows
+
+`summarize` adds a column but reduces the rows down to one row per unique group
 
 database time!
 ========================================================
@@ -189,6 +202,7 @@ database time!
 ```{r }
 con <- DBI::dbConnect(RSQLite::SQLite(), 
                       path = ":memory:")
+## could use memdb_frame
 
 copy_to(con, df_cars, "df_cars",
   temporary = FALSE)
@@ -209,14 +223,16 @@ class(df_cars_db)
   
 ```
 
-same "clean up" as before... almost
+so this looks sane...
 ========================================================
 
 ```{r }
 df_cars_db %>% 
   group_by( cyl) %>%
-  summarize(mean(hp))  ->
+  summarize( avg = mean(hp),
+             std = sd(hp) )  ->
 mean_hp_by_cyl
+
 head( mean_hp_by_cyl )
 ```
 
@@ -224,19 +240,147 @@ what's in mean_hp_by_cyl?
 ========================================================
 
 ```{r }
-mean_hp_by_cyl %>%
+df_cars_db %>% 
+  group_by( cyl) %>%
+  summarize( avg = mean(hp),
+             std = sd(hp) )  %>%
   show_query 
 ```
 ```
 <SQL>
-SELECT `cyl`, `hp`, `shortname`
-FROM (SELECT `longname`, `cyl`, `hp`, WORD(`longname`, 1.0) AS `shortname`
-FROM (SELECT `longname`, `cyl`, `hp`
-FROM `df_cars`))
+SELECT 
+  `cyl`, 
+  AVG(`hp`) AS `avg`, 
+  STDEV(`hp`) AS `std`
+FROM `df_cars`
+GROUP BY `cyl`
 ```
-lazy af
+
+automagic subqueries
 ========================================================
 
 ```{r }
-collect(df_cars_limited_db )
+df_cars_db %>% 
+  group_by( cyl) %>%
+  summarize( avg = mean(hp),
+             std = sd(hp) )  %>%
+  filter( avg > 100) %>%
+  show_query 
 ```
+```
+<SQL>
+SELECT *
+FROM ( SELECT `cyl`, 
+       AVG(`hp`) AS `avg`, 
+       STDEV(`hp`) AS `std`
+       FROM `df_cars`
+       GROUP BY `cyl`
+     )
+WHERE (`avg` > 100.0)
+```
+
+oh yes...
+========================================================
+<div align="center">
+<img src="down_with_opp_dplyr-figure/magic.gif" width=600 >
+
+</div>
+
+lazy af... 
+========================================================
+<div align="center">
+<img src="down_with_opp_dplyr-figure/lazy_push.gif" width=600 >
+
+</div>
+
+lazy af...
+========================================================
+
+```{r }
+mean_hp_by_cyl %>%
+  collect ->
+local_mean_hp_by_cyl
+
+head(local_mean_hp_by_cyl)
+
+class(local_mean_hp_by_cyl)
+```
+
+R Mapped to SQL
+========================================================
+class: small-code
+```
+math operators: +, -, *, /, %%, ^
+
+math functions: abs, acos, acosh, asin, asinh, atan, atan2, atanh, ceiling, cos, cosh, cot, coth, exp, floor, log, log10, round, sign, sin, sinh, sqrt, tan, tanh
+
+logical comparisons: <, <=, !=, >=, >, ==, %in%
+
+boolean operations: &, &&, |, ||, !, xor
+
+basic aggregations: mean, sum, min, max, sd, var
+
+string functions: tolower, toupper, trimws, nchar, substr
+
+coerce types: as.numeric, as.integer, as.character
+```
+
+KNEAD MOAR?
+========================================================
+
+```
+vignette("sql-translation")
+```
+<div align="center">
+<img src="down_with_opp_dplyr-figure/moar.gif" width=700 >
+
+</div>
+
+Reprex
+========================================================
+<div align="center">
+<img src="down_with_opp_dplyr-figure/help.gif" width=900 >
+</div>
+
+tbl_lazy & simulate_dbi
+======================================================
+```{r}
+library(dbplyr)
+data.frame(x = 1, y = 2) %>%
+  tbl_lazy(src = simulate_sqlite()) ->
+df_sqlite ## this is a lazy table
+
+df_sqlite %>% 
+  summarise(x = sd(x)) -> 
+my_tbl_df
+
+my_tbl_df %>%
+  show_query()
+```
+
+simulate functions
+======================================================
+```
+dbi           sqlite
+postgres      mysql
+odbc          impala
+mssql         oracle
+hive          odbc_postgresql
+teradata      odbc_access
+```
+save SQL to file 
+======================================================
+************ not working
+
+
+Common Snags (for me)
+==========================
+
+Search Path:
+```
+dbSendQuery(con, 
+    build_sql("set search_path to 
+    '$user', public, reports, sandbox"))
+```
+Name Clashes on `Join`
+
