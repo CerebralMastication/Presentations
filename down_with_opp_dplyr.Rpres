@@ -13,8 +13,9 @@ Where are we going?
 - `dplyr` can be fast to write
 - `dplyr` can write SQL 
 - `dplyr` writing SQL is fast
-- One really infectious and controversial idea!! 
+- One controversial idea
 - One warning
+- One hack (row-wise)
 
 JD Who?
 ========================================================
@@ -459,3 +460,42 @@ Opinions Vary
 <div align="center">
 <img src="down_with_opp_dplyr-figure/drob_jryan.png" width=900 >
 </div>
+
+Controversy 
+===============
+Right assignment after a pipe chain is teh awesome!!!
+
+```{r, eval=FALSE}
+data %>%
+  fun %>%
+  more_fun ->
+fun_fun_data
+```
+No left indent on the result, y'all!
+
+row-wise design pattern
+=============================
+
+```{r}
+fun <- function(a, b, c){
+  sum(seq(a,b,c))
+}
+
+df <- data.frame(mn=c(1,2,3), 
+                 mx=c(8,13,18), 
+                 rng=c(1,2,3))
+df
+```
+
+row-wise
+=========================
+
+```{r}
+
+df %>% 
+  mutate( output = 
+            unlist( 
+              pmap(list(a=mn, b=mx, c=rng), fun)
+              )
+          )
+```
