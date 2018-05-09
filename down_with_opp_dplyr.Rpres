@@ -368,10 +368,6 @@ mssql         oracle
 hive          odbc_postgresql
 teradata      odbc_access
 ```
-save SQL to file 
-======================================================
-************ not working
-
 
 Common Snags (for me)
 ==========================
@@ -384,3 +380,51 @@ dbSendQuery(con,
 ```
 Name Clashes on `Join`
 
+WARNING!!!
+===========================
+dplyr can stomp on Core R functions:
+```{r, echo=FALSE}
+detach("package:dplyr")
+```
+```{r}
+head( lag(ldeaths, 12) )
+head( lag(ldeaths, k=12) == 
+        head( lag(ldeaths, 12) ) )
+```
+
+WARNING!!!
+============================
+Now load `dplyr`
+```{r, error=TRUE}
+library(dplyr)
+head( lag(ldeaths, 12) )
+head( lag(ldeaths, k=12) )
+```
+WARNING!!!
+============================
+must clarify in your code:
+```{r, error=TRUE}
+library(dplyr)
+head( stats::lag(ldeaths, 12) )
+head( stats::lag(ldeaths, k=12) )
+```
+
+WTF?!?! Hidden Failure!
+============================
+```{r, echo=FALSE}
+detach("package:dplyr")
+```
+```{r, error=TRUE}
+vec_dbl <- as.double(ldeaths)
+head( lag(vec_dbl, 12) )
+
+library(dplyr)
+head( lag(vec_dbl, 12) )
+```
+
+Opinions Vary
+===========================
+<div align="center">
+<img src="down_with_opp_dplyr-figure/drob-jryan.png" width=900 >
+
+</div>
