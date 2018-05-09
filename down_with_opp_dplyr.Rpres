@@ -371,10 +371,7 @@ data.frame(x = 1, y = 2) %>%
 df_sqlite ## this is a lazy table
 
 df_sqlite %>% 
-  summarise(x = sd(x)) -> 
-my_tbl_df
-
-my_tbl_df %>%
+  summarise(x = sd(x)) %>%
   show_query()
 ```
 
@@ -400,6 +397,10 @@ dbSendQuery(con,
 ```
 
 2) Name Clashes on `Join`
+```{r}
+## drop the duplicate field or rename
+df_cars_db <- tbl(con, "df_cars") %>% select(-wt)
+```
 
 workflow with redshift
 =====================
@@ -463,7 +464,7 @@ Opinions Vary
 
 Controversy 
 ===============
-Right assignment after a pipe chain is teh awesome!!!
+Right assignment after a pipe chain is `teh awesome1!11!!`
 
 ```{r, eval=FALSE}
 data %>%
@@ -494,8 +495,18 @@ row-wise
 
 df %>% 
   mutate( output = 
-            unlist( 
               pmap(list(a=mn, b=mx, c=rng), fun)
-              )
+          )
+```
+vector in a df cell
+=========================
+
+```{r}
+fun2 <- function(a, b, c){
+  seq(a,b,c)
+}
+df %>% 
+  mutate( output = 
+            pmap(list(a=mn, b=mx, c=rng), fun2)
           )
 ```
