@@ -10,10 +10,11 @@ css: custom.css
 Where are we going?
 ========================================================
 
-- `dplyr` can make you more productive
-- `dplyr` can write SQL for you
-- Letting `dplyr` write SQL gives you new abilities
+- `dplyr` can be fast to write
+- `dplyr` can write SQL 
+- `dplyr` writing SQL is fast
 - One really infectious and controversial idea!! 
+- One warning
 
 JD Who?
 ========================================================
