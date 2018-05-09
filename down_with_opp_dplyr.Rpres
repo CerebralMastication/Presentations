@@ -480,12 +480,12 @@ row-wise design pattern
 fun <- function(a, b, c){
   sum(seq(a,b,c))
 }
-
 df <- data.frame(mn=c(1,2,3), 
                  mx=c(8,13,18), 
                  rng=c(1,2,3))
 df
 ```
+@JennyBryan: http://bit.ly/rowwise
 
 row-wise
 =========================
