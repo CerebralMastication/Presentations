@@ -15,16 +15,6 @@ Where are we going?
 - Letting `dplyr` write SQL gives you new abilities
 - One really infectious and controversial idea!! 
 
-Twitter Voting Controversy!
-========================================================
-
-I will tweet a survey:
-- @cmastication
-- #rstatsnyc
-
-Twitter Up!
-
-
 JD Who?
 ========================================================
 <div align="center">
@@ -33,10 +23,29 @@ JD Who?
 <img src="down_with_opp_dplyr-figure/JDL-SO.png" width=600 >
 </div>
 
-We're Hiring
+R puns rock!
+===================
+```
+sink("/dev/null")
+```
+
+R puns rock!
+===================
+<div align="center">
+<img src="down_with_opp_dplyr-figure/dev_null.png" width=800 >
+<br>
+
+RenaissanceRe
+==========================
+<div align="center">
+<img src="down_with_opp_dplyr-figure/rnr.png" width=900 >
+<br>
+
+We're Hiring!
 ========================================================
 
-Risk Analyst 
+
+NYC Risk Analyst 
 - early/mid career 
 - Not R centric
 - Team with me
