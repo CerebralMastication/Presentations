@@ -23,14 +23,22 @@ JD Who?
 <img src="down_with_opp_dplyr-figure/JDL-SO.png" width=600 >
 </div>
 
+OPP?
+======================
+<div align="center">
+<img src="down_with_opp_dplyr-figure/opp.png" width=700 >
+<br>
+Tidy by Nature
+
 R puns rock!
 ===================
 ```
 sink("/dev/null")
 ```
 
-R puns rock!
+The Unsinkable /dev/null
 ===================
+
 <div align="center">
 <img src="down_with_opp_dplyr-figure/dev_null.png" width=800 >
 <br>
@@ -47,9 +55,10 @@ We're Hiring!
 
 NYC Risk Analyst 
 - early/mid career 
-- Not R centric
-- Team with me
+- Not R centric   `    :(`
+- Team with me  `  :)`
 
+http://bit.ly/rnr_job
 
 dplyr - set up example
 ========================================================
@@ -197,13 +206,13 @@ class: small-code
 df_cars_limited %>% 
   mutate(Pow= case_when( hp>200 & cyl>=8 ~ 'Strong', 
                      TRUE ~ 'Weak') ) %>%
-  arrange(hp)
+  arrange(-hp)
 ```
 mutate vs. summarize
 ========================================================
 `mutate` adds a column but keeps same # rows
 
-`summarize` adds a column but reduces the rows down to one row per unique group
+`summarize` adds a column but reduces the rows down to one row per unique group based on `group_by`
 
 database time!
 ========================================================
@@ -267,7 +276,7 @@ GROUP BY `cyl`
 
 automagic subqueries
 ========================================================
-
+class: small-code
 ```{r }
 df_cars_db %>% 
   group_by( cyl) %>%
@@ -304,7 +313,7 @@ lazy af...
 
 lazy af...
 ========================================================
-
+class: small-code
 ```{r }
 mean_hp_by_cyl %>%
   collect ->
@@ -345,7 +354,7 @@ vignette("sql-translation")
 
 </div>
 
-Reprex
+reprex
 ========================================================
 <div align="center">
 <img src="down_with_opp_dplyr-figure/help.gif" width=900 >
@@ -381,13 +390,26 @@ teradata      odbc_access
 Common Snags (for me)
 ==========================
 
-Search Path:
+1) Search Path:
 ```
 dbSendQuery(con, 
     build_sql("set search_path to 
     '$user', public, reports, sandbox"))
 ```
-Name Clashes on `Join`
+
+2) Name Clashes on `Join`
+
+workflow with redshift
+=====================
+```
+count(*)
+349,523,453,670
+```
+* pre define joins
+* pass around a "big table"
+* set up criteria
+* transform
+* collect
 
 WARNING!!!
 ===========================
@@ -434,6 +456,5 @@ head( lag(vec_dbl, 12) )
 Opinions Vary
 ===========================
 <div align="center">
-<img src="down_with_opp_dplyr-figure/drob-jryan.png" width=900 >
-
+<img src="down_with_opp_dplyr-figure/drob_jryan.png" width=900 >
 </div>
