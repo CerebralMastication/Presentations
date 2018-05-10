@@ -17,6 +17,15 @@ Where are we going?
 - One warning
 - One hack (row-wise)
 
+Where can I find this prez? 
+======================
+
+Hosted Slideshow: 
+http://bit.ly/opp_dplyr
+
+Source code on Github: 
+http://bit.ly/opp_source
+
 JD Who?
 ========================================================
 <div align="center">
