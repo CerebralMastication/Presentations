@@ -499,14 +499,48 @@ df
 
 row-wise
 =========================
-
+Bug here... see next slide
 ```{r}
 
 df %>% 
   mutate( output = 
-              pmap(list(a=mn, b=mx, c=rng), fun)
-          )
+            pmap(list(a=mn, b=mx, c=rng), fun)
+        )
 ```
+row-wise bug - the video
+========================
+
+Video Describing my mistake:
+http://bit.ly/pmap_bug
+
+I can't embed Loom video in this prez... no iframe support in *.rpres
+
+row-wise: my bug
+=========================
+`pmap` returns a list
+```{r}
+
+df %>% 
+  mutate(output = 
+          pmap(list(a=mn, b=mx, c=rng), fun)
+        ) -> 
+out_df
+str(out_df)
+```
+row-wise: my bug cont
+=========================
+`pmap` returns a list... `pmap_dbl` returns vec of dbl
+```{r}
+
+df %>% 
+  mutate(output = 
+          pmap_dbl(list(a=mn, b=mx, c=rng), fun)
+        ) -> 
+out_df
+str(out_df)
+```
+
+
 vector in a df cell
 =========================
 
