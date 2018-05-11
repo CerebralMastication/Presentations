@@ -529,7 +529,7 @@ str(out_df)
 ```
 row-wise: my bug cont
 =========================
-`pmap` returns a list... `pmap_dbl` returns vec of dbl
+`pmap_dbl` returns vec of doubles
 ```{r}
 
 df %>% 
