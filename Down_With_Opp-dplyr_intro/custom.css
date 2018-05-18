@@ -34,3 +34,6 @@
 .small-code pre code {
   font-size: 125%;
 }
+.vsmall-code pre code {
+  font-size: 100%;
+}
