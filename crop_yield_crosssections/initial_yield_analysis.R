@@ -70,6 +70,7 @@ sob_by_year_plan
 g_acres <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_bar(aes(y = acres/1e6, x = year,  fill = PlanType), 
            data = sob_by_year_plan, stat="identity") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
   labs(x="Year", y="Acres (millions)") +
@@ -79,7 +80,8 @@ g_acres
 ## same as above but premium on the Y axis
 g_prem <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_bar(aes(y = prem/1e9, x = year,  fill = PlanType), 
-           data = sob_by_year_plan, stat="identity") +
+           data = sob_by_year_plan, stat="identity")+
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
   labs(x="Year", y="Premium ($ B)") +
@@ -96,7 +98,8 @@ sob_by_year_plan_no_state
 # now plot loss ratio over time by group
 g_lr <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_line(aes(y = indem / prem , x = year,  color = PlanType), 
-           data = sob_by_year_plan_no_state, stat="identity") +
+           data = sob_by_year_plan_no_state, stat="identity")+
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
   labs(x="Year", y="Loss Ratio (%)") +
@@ -106,7 +109,8 @@ g_lr
 ## same as above but only IL
 g_lr_il <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_line(aes(y = (indem/prem) * 100 , x = year,  color = PlanType), 
-            data = filter(sob_by_year_plan, stAbbr=='IL'), stat="identity") +
+            data = filter(sob_by_year_plan, stAbbr=='IL'), stat="identity")+
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
   labs(x="Year", y="Loss Ratio (%)") +
@@ -138,6 +142,10 @@ g_cov_level <- ggplot() + theme_economist() + scale_fill_economist() +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
   labs(x="Coverage Level", y="Claim Rate (%)") +
-  scale_x_continuous(limits=c(.4, 1.2)) +
-  ggtitle("Yield Product Claim Rate by Coverage Level")
+  scale_x_continuous(limits=c(.5, 1), breaks = scales::pretty_breaks(n = 10))  +
+  ggtitle("Yield Protection: Claim Rate by Coverage Level")
 g_cov_level
+
+
+## create 3 CDFs to illustrate what's going on with the prior graph
+
