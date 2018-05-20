@@ -1,5 +1,6 @@
 library(tidyverse)
 library(ggthemes)
+library(scales)
 
 
 ## summary of business files are downloaded from here:
@@ -148,4 +149,201 @@ g_cov_level
 
 
 ## create 3 CDFs to illustrate what's going on with the prior graph
+c_level <- seq( from=0, to=1.5, by=.1)
+
+plot(function(x) pbeta(x, shape1=20, shape2=5 ), .5, 1)  
+plot(function(x) pbeta(x, shape1=2, shape2=6 ), .5, 1, add=TRUE)
+#plot(function(x) pbeta(x, shape1=2, shape2=8 ), 0, 1, add=TRUE)
+
+plot(function(x) pbeta(x, shape1=9, shape2=8 ), .5, 1, add=TRUE, col='blue')
+plot(function(x) pbeta(x, shape1=9, shape2=10 ), .5, 1, add=TRUE, col='blue')
+
+pbeta( x, 20,5) = x
+
+curve((pnorm(x,-.5,1)), add = TRUE, col = "red", lwd = 2)
+
+x<- c(.2,.4)
+-sum( (pbeta(x, shape1=5.5, shape2=9.16 ) -x)**2 )
+
+
+fit_beta_cdf <- function(x,y) {
+  beta_func <- function(par, x) sum( (pbeta( x, par[1], par[2]) - y)**2 ) 
+  out <- optim(c(1,.8), beta_func, method="CG", x=x)
+  
+  #plot(function(x) pbeta(x, shape1=out$par[1], shape2=out$par[2] ), 0, 1.5, col='red')
+  #lines(x,y, col='blue')
+  plot(function(x) dbeta(x, shape1=out$par[1], shape2=out$par[2] ), 0, 1.5)
+  return(out$par) 
+}
+
+claims_rate_covlevel %>%
+  group_by(year) %>%
+  summarize( beta1 = fit_beta_cdf(.$covLevel, .$claim_rate)[1], 
+             beta2 = fit_beta_cdf(.$covLevel, .$claim_rate)[2])
+
+beta_on_group <- function(dat){
+  params <- fit_beta_cdf(dat$covLevel, dat$claim_rate) 
+  out <- data.frame(year = unique(dat$year), 
+                    b1 = params[1], 
+                    b2 = params[2])
+  return(out)
+}
+claims_rate_covlevel %>%
+  group_by(year) %>%
+  do(beta_on_group(.)) ->
+m
+
+
+claims_rate_covlevel %>%
+  filter(year == 2012) ->
+  dat
+beta_on_group(dat)
+
+fit_beta_cdf(dat$covLevel, dat$claim_rate)
+
+x = dat$covLevel
+y = dat$claim_rate
+out <- fit_beta_cdf(x,y)
+print(out)
+plot(function(x) pbeta(x, shape1=out[1], shape2=out[2] ), 0, 1.5, col='red')
+plot(function(x) pbeta(x, 9,.8), 0, 1.5, col='black', add=TRUE)
+lines(x,y, col='blue')
+
+-sum( (pbeta( x, 9, .8) - y)**2)
+-sum( (pbeta( x, .9, 23) - y)**2)
+    
+
+x <- c(0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85)
+y <- c(0.0666666666666667, 0.0625, 0.0659340659340659, 0.0563106796116505, 
+       0.0305676855895196, 0.0436953807740325, 0.0267459138187221)
+
+# function to optomize with optim
+beta_func <- function(par, x) sum( (pbeta( x, par[1], par[2]) - y)**2 ) 
+out <- optim(c(9,.8), beta_func, lower=c(1,.5), upper=c(200,200), method="L-BFGS-B", x=x)
+out <- optim(c(9,.8), beta_func, method="CG", x=x)
+
+out <- out$par
+print(out)
+
+plot(function(x) pbeta(x, shape1=out[1], shape2=out[2] ), 0, 1.5, col='red')
+plot(function(x) pbeta(x, 9,.8), 0, 1.5, col='black', add=TRUE)
+lines(x,y, col='blue')
+
+# my guess
+-sum( (pbeta( x, 9, .8) - y)**2)
+
+# optim's output
+-sum( (pbeta( x, .9, 23) - y)**2)
+
+
+
+x <- c(0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85)
+y <- c(0.514492753623188, 0.553072625698324, 0.656527249683143, 0.675694939415538, 
+       0.68681076312307, 0.715657311669128, 0.792349726775956)
+
+# function to optomize with optim
+beta_func <- function(par, x) sum( (pbeta( x, par[1], par[2]) - y)**2 ) 
+#out <- optim(c(9,.8), beta_func, lower=c(1,.5), upper=c(200,200), method="L-BFGS-B", x=x)
+out <- optim(c(9,.8), beta_func, method="CG", x=x)
+
+out <- out$par
+print(out)
+
+plot(function(x) pbeta(x, shape1=out[1], shape2=out[2] ), 0, 1.5, col='red')
+plot(function(x) pbeta(x, 9,.8), 0, 1.5, col='black', add=TRUE)
+lines(x,y, col='blue')
+
+
+
+
+
+
+
+
+
+
+############ Commodity price data 
+
+# install.packages("Quandl")
+library(Quandl)
+
+
+# have to have a quandl token for this to work. Get one here:
+# https://blog.quandl.com/getting-started-with-the-quandl-api
+# quandlToken <- 'yourToken'
+Quandl.api_key(quandlToken)
+
+## Corn
+# only grabbing corn data for illustration. So going to get 2-1 to 10-31 data for 1989-2017
+
+plot_corn_prices <- function(year, download=TRUE) {
+  contractString <- paste0('CME/CZ', year)
+  
+  if (download) {
+    # grab the data from quandl
+    year_data = Quandl(contractString)
+    Sys.sleep(3) # slow down a bit
+    write_csv(year_data, paste0("./data/CMECZ", year, '.csv'))
+  } else {
+    year_data = read_csv(paste0("./data/CMECZ", year, '.csv'))
+    
+  }
+  
+  # filter to date range desired
+  # calculate a column holding only the month
+  year_data %>%
+    filter(Date >= paste0(year, '-02-01') & Date <= paste0(year, '-10-31')) %>% 
+    mutate(month=format(Date, "%m")) %>%
+    mutate( period = case_when( month=='10' ~ 'H', 
+                                month=='02' ~ 'S')) ->
+  year_data
+
+  year_data %>% 
+    filter(!is.na(period)) %>%
+    group_by(period) %>%
+    summarize(avg_price = mean(Settle)) %>%
+    spread(period, avg_price) %>%
+    summarize(change = (H - S) / H ) ->
+  price_change 
+  
+  price_change <- paste0(round(price_change[[1]], digits=2) * 100, '%')
+  
+  ## shade spring and harvest price - repeats logic from above but in 
+  ## a different format. Should not have to repeat, but can't make it work
+  ## otherwise
+  rects <- data.frame(startDate = as.Date(c(paste0(year, '-02-01'),paste0(year, '-10-01'))), 
+                      endDate = as.Date(c(paste0(year, '-02-28'),paste0(year, '-10-31'))), 
+                      col = c('S','H'))
+  
+  g_price <- ggplot() + theme_economist() + scale_fill_economist() +
+    geom_rect(data = rects,  #bring in shading rectangles
+              aes(xmin = startDate, xmax = endDate, 
+                         ymin = -Inf, ymax = Inf, 
+                         fill = col), 
+              alpha = 0.4) +
+    geom_line(aes(y = Settle/100  , x = Date),  # plot settle price
+              data = year_data, stat="identity") +
+    expand_limits(y=0) + # make x axis go to 0, like it should
+    scale_x_date(labels = date_format("%b-%y"), 
+                 breaks = scales::pretty_breaks(n = 9)) + # one break per month
+    theme(axis.text.x = element_text(angle = -90, hjust = 1)) + #rotate dates
+    theme(legend.position="none") + # kill legend
+    labs(x="Date", y="CME Price" ) +
+    ggtitle(paste0("CME Corn (CZ) Daily Settle Price - ", year), 
+            subtitle = paste0('Price Δ Feb vs Oct = ', price_change)) 
+  g_price
+  return(g_price)
+}
+
+
+plot_corn_prices(2013, download=TRUE)
+
+years <- 1989:2017
+graph_list <- lapply(years, plot_corn_prices)
+
+list_to_plot <- graph_list[c(20, 24, 27, 28)]
+library(gridExtra)
+do.call("grid.arrange", c(list_to_plot, ncol=2))
+
+
 
