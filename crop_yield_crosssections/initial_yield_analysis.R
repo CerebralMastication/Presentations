@@ -133,6 +133,20 @@ sob %>%
   filter(year %in% c(2015,2016,2012)) -> # 2016-g 2015-m 2012-b
 claims_rate_covlevel
 
+sob %>% 
+  filter(quantType == 'Acres',        # field crops only 
+         planAbbr %in% c('APH','YP'), # yield only
+         stAbbr == 'IL', cropName == 'CORN', 
+         covLevel > .5) %>%          # kick out the low cover levels
+  group_by(year,covLevel) %>% 
+  summarize(claim_rate = sum(indemCount) / sum(unitsReportingPrem), 
+            prem = sum(prem), 
+            indem = sum(indem), 
+            lr = sum(indem) / sum(prem)) %>%
+  filter(year %in% c(2002,2005)) ->
+claims_rate_covlevel
+
+
 ## for the 3 years we selected above let's plot claim rate vs cover level
 ## grouped by year so we can better understand the shape
 g_cov_level <- ggplot() + theme_economist() + scale_fill_economist() +
@@ -158,28 +172,17 @@ plot(function(x) pbeta(x, shape1=2, shape2=6 ), .5, 1, add=TRUE)
 plot(function(x) pbeta(x, shape1=9, shape2=8 ), .5, 1, add=TRUE, col='blue')
 plot(function(x) pbeta(x, shape1=9, shape2=10 ), .5, 1, add=TRUE, col='blue')
 
-pbeta( x, 20,5) = x
-
-curve((pnorm(x,-.5,1)), add = TRUE, col = "red", lwd = 2)
-
-x<- c(.2,.4)
--sum( (pbeta(x, shape1=5.5, shape2=9.16 ) -x)**2 )
-
 
 fit_beta_cdf <- function(x,y) {
   beta_func <- function(par, x) sum( (pbeta( x, par[1], par[2]) - y)**2 ) 
-  out <- optim(c(1,.8), beta_func, method="CG", x=x)
+  #out <- optim(c(1,.8), beta_func, method="CG", x=x)
+  out <- optim(c(1,.8), lower=c(1,.9), upper=c(100,100), beta_func, method="L-BFGS-B", x=x)
   
   #plot(function(x) pbeta(x, shape1=out$par[1], shape2=out$par[2] ), 0, 1.5, col='red')
   #lines(x,y, col='blue')
   plot(function(x) dbeta(x, shape1=out$par[1], shape2=out$par[2] ), 0, 1.5)
   return(out$par) 
 }
-
-claims_rate_covlevel %>%
-  group_by(year) %>%
-  summarize( beta1 = fit_beta_cdf(.$covLevel, .$claim_rate)[1], 
-             beta2 = fit_beta_cdf(.$covLevel, .$claim_rate)[2])
 
 beta_on_group <- function(dat){
   params <- fit_beta_cdf(dat$covLevel, dat$claim_rate) 
@@ -193,72 +196,21 @@ claims_rate_covlevel %>%
   do(beta_on_group(.)) ->
 m
 
-
-claims_rate_covlevel %>%
-  filter(year == 2012) ->
-  dat
-beta_on_group(dat)
-
-fit_beta_cdf(dat$covLevel, dat$claim_rate)
-
-x = dat$covLevel
-y = dat$claim_rate
-out <- fit_beta_cdf(x,y)
-print(out)
-plot(function(x) pbeta(x, shape1=out[1], shape2=out[2] ), 0, 1.5, col='red')
-plot(function(x) pbeta(x, 9,.8), 0, 1.5, col='black', add=TRUE)
-lines(x,y, col='blue')
-
--sum( (pbeta( x, 9, .8) - y)**2)
--sum( (pbeta( x, .9, 23) - y)**2)
-    
-
-x <- c(0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85)
-y <- c(0.0666666666666667, 0.0625, 0.0659340659340659, 0.0563106796116505, 
-       0.0305676855895196, 0.0436953807740325, 0.0267459138187221)
-
-# function to optomize with optim
-beta_func <- function(par, x) sum( (pbeta( x, par[1], par[2]) - y)**2 ) 
-out <- optim(c(9,.8), beta_func, lower=c(1,.5), upper=c(200,200), method="L-BFGS-B", x=x)
-out <- optim(c(9,.8), beta_func, method="CG", x=x)
-
-out <- out$par
-print(out)
-
-plot(function(x) pbeta(x, shape1=out[1], shape2=out[2] ), 0, 1.5, col='red')
-plot(function(x) pbeta(x, 9,.8), 0, 1.5, col='black', add=TRUE)
-lines(x,y, col='blue')
-
-# my guess
--sum( (pbeta( x, 9, .8) - y)**2)
-
-# optim's output
--sum( (pbeta( x, .9, 23) - y)**2)
+f1 <- function(x) pbeta(x, shape1=1.01, shape2=.9 ) * 100
 
 
+g_cov_level +
+layer(stat = "function",
+      fun = f1, 
+      mapping = aes(color = "f1") # Give a meaningful name to color
+) 
 
-x <- c(0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85)
-y <- c(0.514492753623188, 0.553072625698324, 0.656527249683143, 0.675694939415538, 
-       0.68681076312307, 0.715657311669128, 0.792349726775956)
+g_cov_level +
+  stat_function(fun = f1)
 
-# function to optomize with optim
-beta_func <- function(par, x) sum( (pbeta( x, par[1], par[2]) - y)**2 ) 
-#out <- optim(c(9,.8), beta_func, lower=c(1,.5), upper=c(200,200), method="L-BFGS-B", x=x)
-out <- optim(c(9,.8), beta_func, method="CG", x=x)
+f <- ggplot(data.frame(x = c(0, 1)), aes(x))
 
-out <- out$par
-print(out)
-
-plot(function(x) pbeta(x, shape1=out[1], shape2=out[2] ), 0, 1.5, col='red')
-plot(function(x) pbeta(x, 9,.8), 0, 1.5, col='black', add=TRUE)
-lines(x,y, col='blue')
-
-
-
-
-
-
-
+f + stat_function(fun = f1)
 
 
 
@@ -347,3 +299,57 @@ do.call("grid.arrange", c(list_to_plot, ncol=2))
 
 
 
+################## go grab some NASS data 
+
+# grab the latest NASS crop file from ftp://ftp.nass.usda.gov/quickstats/ and save it
+library(RCurl)
+url <- "ftp://ftp.nass.usda.gov/quickstats/"
+filenames <- getURL(url, ftp.use.epsv = FALSE,dirlistonly = TRUE) 
+filenames <- unlist(strsplit(filenames,"[\\\\]|[^[:print:]]",fixed=FALSE)) ## split up the filenames
+crop_file <- filenames[grep( 'crops', filenames)]
+nass_data_bin <- try(getBinaryURL(paste0(url,crop_file)))
+writeBin(nass_data_bin, paste0('./data/', crop_file))
+rm(nass_data_bin) # free up memory
+
+nass_crop_data = read_tsv(paste0('./data/', crop_file)) # takes a few minutes... 5.6GB
+
+start_year = 1989
+end_year = 2018
+
+nass_crop_data %>%
+  filter(AGG_LEVEL_DESC == 'STATE' &
+         REFERENCE_PERIOD_DESC == 'YEAR' &
+         YEAR >= start_year &
+         YEAR <= end_year) ->
+annual_crop_data
+
+rm(nass_crop_data) # save some memory
+
+annual_crop_data %>%
+  filter(COMMODITY_DESC=='CORN' &
+         SHORT_DESC %in% c('CORN, GRAIN - PRODUCTION, MEASURED IN BU','CORN - ACRES PLANTED') &
+         SOURCE_DESC == 'SURVEY' ) %>%
+  mutate(VALUE = as.double( gsub(",","",VALUE) ) ) -> #kill the commas and make value a double
+  corn_annual_nass_data
+
+
+corn_annual_nass_data %>%
+  group_by(STATE_ALPHA, YEAR, SHORT_DESC) %>%
+  summarize( VALUE = sum(VALUE)) %>%
+  mutate(SHORT_DESC = gsub('CORN, GRAIN - PRODUCTION, MEASURED IN BU', 'corn_production', SHORT_DESC) ) %>%
+  mutate(SHORT_DESC = gsub('CORN - ACRES PLANTED', 'corn_acres_planted', SHORT_DESC) ) %>%
+  spread(SHORT_DESC, VALUE) %>% 
+  mutate(plantedYield =  corn_production / corn_acres_planted ) ->
+corn_yield
+
+
+corn_yield %>%
+  filter(STATE_ALPHA == 'IL') ->
+il_corn_yield
+
+ggplot(il_corn_yield) +
+  aes(x=YEAR, y=plantedYield) +
+  geom_line()
+
+ write_csv(il_corn_yield, './data/il_corn_yield.csv')
+         
