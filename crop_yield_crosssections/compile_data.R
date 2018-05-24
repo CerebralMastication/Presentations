@@ -178,5 +178,7 @@ sob %>%
   group_by(year, PlanType, stAbbr) %>%
   summarize(liab = sum(liab), prem=sum(prem), indem=sum(indem), 
             acres=sum(quantNet, na.rm=TRUE)) ->
-  sob_by_year_plan
+  sob_by_state_year_plan
+
+write_csv(sob_by_state_year_plan, './data/sob_by_state_year_plan.csv')
 

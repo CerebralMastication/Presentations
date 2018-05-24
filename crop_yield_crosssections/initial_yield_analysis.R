@@ -2,13 +2,14 @@ library(tidyverse)
 library(ggthemes)
 library(scales)
 
-
+## read in summary of business data from csv
+sob_by_state_year_plan <- read_csv('./data/sob_by_state_year_plan.csv')
 
 
 ## US MPCI Acres by Product Type (Revenue vs. Yield)
 g_acres <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_bar(aes(y = acres/1e6, x = year,  fill = PlanType), 
-           data = sob_by_year_plan, stat="identity") +
+           data = sob_by_state_year_plan, stat="identity") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
@@ -19,7 +20,7 @@ g_acres
 ## same as above but premium on the Y axis
 g_prem <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_bar(aes(y = prem/1e9, x = year,  fill = PlanType), 
-           data = sob_by_year_plan, stat="identity")+
+           data = sob_by_state_year_plan, stat="identity")+
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
@@ -28,16 +29,16 @@ g_prem <- ggplot() + theme_economist() + scale_fill_economist() +
 g_prem
 
 ## kick out the state grouping then plot loss ratio over time by product type
-sob_by_year_plan %>%
+sob_by_state_year_plan %>%
   group_by(year, PlanType) %>% #changed this grouping is all we do here
   summarize(liab = sum(liab), prem=sum(prem), indem=sum(indem), 
             acres=sum(acres, na.rm=TRUE)) ->
-sob_by_year_plan_no_state
+sob_by_state_year_plan_no_state
 
 # now plot loss ratio over time by group
 g_lr <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_line(aes(y = indem / prem , x = year,  color = PlanType), 
-           data = sob_by_year_plan_no_state, stat="identity")+
+           data = sob_by_state_year_plan_no_state, stat="identity")+
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
@@ -48,7 +49,7 @@ g_lr
 ## same as above but only IL
 g_lr_il <- ggplot() + theme_economist() + scale_fill_economist() +
   geom_line(aes(y = (indem/prem) * 100 , x = year,  color = PlanType), 
-            data = filter(sob_by_year_plan, stAbbr=='IL'), stat="identity")+
+            data = filter(sob_by_state_year_plan, stAbbr=='IL'), stat="identity")+
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
   theme(legend.position="bottom", legend.direction="horizontal",
         legend.title = element_blank()) +
@@ -68,7 +69,7 @@ sob %>%
             prem = sum(prem), 
             indem = sum(indem), 
             lr = sum(indem) / sum(prem)) %>%
-  filter(year %in% c(2015,2016,2012)) -> # 2016-g 2015-m 2012-b
+  filter(year %in% c(2015, 2016, 2012)) -> # 2016-g 2015-m 2012-b
 claims_rate_covlevel
 
 sob %>% 
@@ -81,7 +82,7 @@ sob %>%
             prem = sum(prem), 
             indem = sum(indem), 
             lr = sum(indem) / sum(prem)) %>%
-  filter(year %in% c(2002,2005)) ->
+  filter(year %in% c(2002, 2005, 2012)) ->
 claims_rate_covlevel
 
 
