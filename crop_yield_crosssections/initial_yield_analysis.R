@@ -1,10 +1,17 @@
 library(tidyverse)
 library(ggthemes)
 library(scales)
+library(gridExtra)
 
 ## read in summary of business data from csv
-sob_by_state_year_plan <- read_csv('./data/sob_by_state_year_plan.csv')
-
+sob_by_state_year_plan <- read_csv('./data/sob_by_state_year_plan.csv', 
+                                   col_types = cols(year = col_integer(), PlanType = col_character(), 
+                                                    stAbbr = col_character(), liab = col_double(), 
+                                                    prem = col_double(), indem = col_double(), 
+                                                    acres = col_double() ) )
+sob_by_state_year_plan %>% 
+  filter(year <= 2017) ->
+  sob_by_state_year_plan
 
 ## US MPCI Acres by Product Type (Revenue vs. Yield)
 g_acres <- ggplot() + theme_economist() + scale_fill_economist() +
@@ -154,15 +161,40 @@ f + stat_function(fun = f1)
 
 
 ############ Commodity price data 
-sob_by_state_year_plan <- read_csv('./data/sob_by_state_year_plan.csv')
 
+corn_prices <- read_csv('./data/corn_prices.csv')
 
-years <- 1989:2017
+g_corn_price <- ggplot() + 
+  theme_economist() + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  geom_bar(aes(y = price_change , x = year), 
+            data = filter(corn_prices, year <=2008), 
+           stat="identity" , fill=ggthemes_data$economist$fg[['blue_gray']]) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
+  theme(legend.position="bottom", legend.direction="horizontal",
+        legend.title = element_blank()) +
+  labs(x="Year", y="% Price Change Spring vs. Harvest") +
+  ggtitle("CBOT December Contract Corn Prices")
+g_corn_price
+
+## superimpose yield changes over that image.... 
+il_corn_yield <- read_csv( './data/il_corn_yield.csv')
+il_corn_yield %>%
+  filter(YEAR >= min(corn_prices$year) &
+         YEAR <= 2008) ->
+il_corn_yield
+
+g_corn_price +
+  geom_crossbar(data=il_corn_yield, aes(x=YEAR, y=yield_dev, 
+                                        ymin=0, ymax=0) , 
+                col=ggthemes_data$economist$fg[['red_dark']]
+                ) +
+  ggtitle("CBOT Corn and Yield Deviations")
+
+years <- c( 1992, 1998, 2004, 2008)
 graph_list <- lapply(years, plot_corn_prices)
-
-list_to_plot <- graph_list[c(20, 24, 27, 28)]
-library(gridExtra)
-do.call("grid.arrange", c(list_to_plot, ncol=2))
+do.call("grid.arrange", c(graph_list, ncol=2))
 
 
 

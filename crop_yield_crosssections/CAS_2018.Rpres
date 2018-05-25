@@ -30,6 +30,55 @@ All data, code, and examples:
 </div>
 Feel free to explore and create. 
 
+US MPCI Program Acres
+============================
+class: small-body
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
+library(tidyverse)
+library(ggthemes)
+library(scales)
+library(gridExtra)
+source('./helper_functions.R')
+## read in summary of business data from csv
+sob_by_state_year_plan <- read_csv('./data/sob_by_state_year_plan.csv', 
+                                   col_types = cols(year = col_integer(), PlanType = col_character(), 
+                                                    stAbbr = col_character(), liab = col_double(), 
+                                                    prem = col_double(), indem = col_double(), 
+                                                    acres = col_double() ) )
+sob_by_state_year_plan %>% 
+  filter(year <= 2017) ->
+  sob_by_state_year_plan
+
+## US MPCI Acres by Product Type (Revenue vs. Yield)
+g_acres <- ggplot() + theme_economist(base_size = 45) + scale_fill_economist() +
+  geom_bar(aes(y = acres/1e6, x = year,  fill = PlanType), 
+           data = sob_by_state_year_plan, stat="identity") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  theme(legend.position="bottom", 
+        legend.direction="horizontal",
+        legend.title = element_blank() ) +
+  labs(x="Year", y="Acres (millions)") +
+  ggtitle("US MPCI Acres by Product Type")
+g_acres 
+```
+Source RMA Summary of Business
+
+US MPCI Program Premium
+===============================
+class: small-body
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
+g_prem <- ggplot() + theme_economist(base_size = 45) + scale_fill_economist() +
+  geom_bar(aes(y = prem/1e9, x = year,  fill = PlanType), 
+           data = sob_by_state_year_plan, stat="identity")+
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
+  theme(legend.position="bottom", legend.direction="horizontal",
+        legend.title = element_blank()) +
+  labs(x="Year", y="Premium ($ B)") +
+  ggtitle("US MPCI Premium by Product Type")
+g_prem
+```
+Source RMA Summary of Business
+
 Yields Over Time
 ========================================================
 IL Timeseries with trend

@@ -53,6 +53,14 @@ ggplot(il_corn_yield) +
   aes(x=YEAR, y=plantedYield) +
   geom_line()
 
+## shoot a linear trend in yield
+model_yield <- lm(plantedYield ~ YEAR, data=il_corn_yield)
+il_corn_yield %>%
+  mutate(trend_yield = model_yield$coefficients["(Intercept)"] + 
+           YEAR * model_yield$coefficients["YEAR"]) %>%
+  mutate(yield_dev = (plantedYield - trend_yield) / trend_yield) ->
+il_corn_yield
+
 write_csv(il_corn_yield, './data/il_corn_yield.csv')
 
 
