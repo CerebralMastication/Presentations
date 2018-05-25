@@ -154,6 +154,7 @@ f + stat_function(fun = f1)
 
 
 ############ Commodity price data 
+sob_by_state_year_plan <- read_csv('./data/sob_by_state_year_plan.csv')
 
 
 years <- 1989:2017

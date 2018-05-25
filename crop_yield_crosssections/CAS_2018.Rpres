@@ -1,0 +1,89 @@
+CARe 2018: Cross Sectional Yield Distributions
+========================================================
+author: JD Long
+date: 2018-06-04
+autosize: true
+font-family: 'Helvetica'
+css: custom.css
+
+Disclaimer
+========================================================
+```
+* I am sharing my personal views not the views of RenaissanceRe Holdings, Ltd. or any of its subsidiary companies.
+
+* Thought provoking only: The materials are provided for information purposes only, are in summary form, and thus do not include all information necessary for analysis. 
+
+* This is not consulting: No representations or warranties are give as to the accuracy or completeness of the materials and no professional advice or guidance is given by the presentation. If you want to use these ideas, professional consultation should be sought. 
+
+* This is not financial advice: No financial advice is being given nor any recommendation to invest in any financial product. Historical data is presented and historical results/events give no assurance as to future results.
+```
+
+Source
+========================================================
+
+All data, code, and examples:
+
+<http://bit.ly/cas_yield>.
+
+<div align="center">
+<img src="./CAS_2018-figure/github.png" width=900 >
+</div>
+Feel free to explore and create. 
+
+Yields Over Time
+========================================================
+IL Timeseries with trend
+```{r, echo=FALSE}
+
+```
+Yields Over Time Cont
+========================================================
+IL Timeseries with trend & cross section error bars or box plot
+```{r, echo=FALSE}
+
+```
+
+What do we know about cross section?
+========================================================
+class: big-body
+<br><br>
+Standard Model
+
+
+
+========================================================
+<br>
+<div align="center">
+<img src="./CAS_2018-figure/all-wrong.jpg" width=1300 >
+</div>
+
+
+Where Does it Break Down 
+========================================================
+class: big-body 
+<br><br>
+Story time... 
+
+Claims Rates by Coverage Level 
+========================================================
+graph here
+
+APH vs. Revenue by Cov: Price Up 
+========================================================
+graph
+
+2008 Price Movement
+========================================================
+price graph
+
+2008 Yield Estimate
+========================================================
+crop progress report from some late month
+
+How'd we do? 
+========================================================
+plot IL actual CDF with normal estimated CDF?
+
+
+
+
