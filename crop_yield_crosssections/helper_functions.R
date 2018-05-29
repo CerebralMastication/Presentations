@@ -35,14 +35,17 @@ plot_corn_prices <- function(year) {
                       endDate = as.Date(c(paste0(year, '-02-28'),paste0(year, '-10-31'))), 
                       col = c('S','H'))
   
-  g_price <- ggplot() + theme_economist() + scale_fill_economist() +
+  g_price <- ggplot() + 
+    theme_economist(base_size = 65) + 
+    scale_fill_economist() +
     geom_rect(data = rects,  #bring in shading rectangles
               aes(xmin = startDate, xmax = endDate, 
                   ymin = -Inf, ymax = Inf, 
                   fill = col), 
               alpha = 0.4) +
     geom_line(aes(y = Settle/100  , x = Date),  # plot settle price
-              data = year_data, stat="identity") +
+              data = year_data, stat="identity", 
+              size=4) +
     expand_limits(y=0) + # make x axis go to 0, like it should
     scale_x_date(labels = date_format("%b-%y"), 
                  breaks = scales::pretty_breaks(n = 9)) + # one break per month

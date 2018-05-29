@@ -5,6 +5,7 @@
 ################## go grab some NASS data 
 start_year = 1989
 end_year = 2018
+download_nass = TRUE
 
 # grab the latest NASS crop file from ftp://ftp.nass.usda.gov/quickstats/ and save it
 library(RCurl)
@@ -12,9 +13,12 @@ url <- "ftp://ftp.nass.usda.gov/quickstats/"
 filenames <- getURL(url, ftp.use.epsv = FALSE,dirlistonly = TRUE) 
 filenames <- unlist(strsplit(filenames,"[\\\\]|[^[:print:]]",fixed=FALSE)) ## split up the filenames
 crop_file <- filenames[grep( 'crops', filenames)]
-nass_data_bin <- try(getBinaryURL(paste0(url,crop_file)))
-writeBin(nass_data_bin, paste0('./data/', crop_file))
-rm(nass_data_bin) # free up memory
+
+if (download_nass==TRUE){
+  nass_data_bin <- try(getBinaryURL(paste0(url,crop_file)))
+  writeBin(nass_data_bin, paste0('./data/', crop_file))
+  rm(nass_data_bin) # free up memory
+}
 
 nass_crop_data = read_tsv(paste0('./data/', crop_file)) # takes a few minutes... 5.6GB
 
@@ -49,9 +53,17 @@ corn_yield %>%
   filter(STATE_ALPHA == 'IL') ->
   il_corn_yield
 
+
+corn_yield %>%
+  filter(STATE_ALPHA == 'IA') %>%
+  ggplot() +
+    aes(x=YEAR, y=plantedYield) +
+    geom_line()
+
 ggplot(il_corn_yield) +
   aes(x=YEAR, y=plantedYield) +
-  geom_line()
+  geom_line() + 
+  geom_smooth(method = "lm")
 
 ## shoot a linear trend in yield
 model_yield <- lm(plantedYield ~ YEAR, data=il_corn_yield)
@@ -177,6 +189,18 @@ load_rma_data <- function(remote=TRUE, years=1989:2018){
 # so set remote = FALSE
 sob <- load_rma_data(remote=TRUE, years=1989:2018)
 
+sob %>% 
+  filter(quantType == 'Acres',        # field crops only 
+         planAbbr %in% c('APH','YP'), # yield only
+         stAbbr == 'IL', cropName == 'CORN', 
+         covLevel > .5) %>%          # kick out the low cover levels
+  group_by(year,covLevel) %>% 
+  summarize(claim_rate = sum(indemCount) / sum(unitsReportingPrem), 
+            prem = sum(prem), 
+            indem = sum(indem), 
+            lr = sum(indem) / sum(prem))  ->
+  claims_rate_covlevel_il_corn
+write_csv(claims_rate_covlevel_il_corn, './data/claims_rate_covlevel_il_corn.txt')
 
 ## do some quick profiling of the sob data
 sob %>%
@@ -190,3 +214,19 @@ sob %>%
 
 write_csv(sob_by_state_year_plan, './data/sob_by_state_year_plan.csv')
 
+
+
+sob %>% 
+  filter(quantType == 'Acres',        # field crops only 
+         stAbbr == 'IL', cropName == 'CORN', 
+         covLevel > .5) %>%          # kick out the low cover levels
+  mutate(PlanType = case_when( planCd %in% c('25','42','44','45','73', '02', '03', '05', '06') ~ 'Revenue', 
+                               TRUE ~ 'Yield')) %>%
+  group_by(year,covLevel, PlanType) %>% 
+  summarize(claim_rate = sum(indemCount) / sum(unitsReportingPrem), 
+            prem = sum(prem), 
+            indem = sum(indem), 
+            lr = sum(indem) / sum(prem)) %>%
+  filter(year %in% c(2002, 2005, 2012)) ->
+  claims_rate_covlevel_plan_type
+write_csv(claims_rate_covlevel_plan_type, './data/claims_rate_covlevel_plan_type')

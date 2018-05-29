@@ -108,6 +108,38 @@ g_cov_level <- ggplot() + theme_economist() + scale_fill_economist() +
 g_cov_level
 
 
+### same thing but with APH & REV
+sob %>% 
+  filter(quantType == 'Acres',        # field crops only 
+         stAbbr == 'IL', cropName == 'CORN', 
+         covLevel > .5) %>%          # kick out the low cover levels
+  mutate(PlanType = case_when( planCd %in% c('25','42','44','45','73', '02', '03', '05', '06') ~ 'Revenue', 
+                               TRUE ~ 'Yield')) %>%
+  group_by(year,covLevel, PlanType) %>% 
+  summarize(claim_rate = sum(indemCount) / sum(unitsReportingPrem), 
+            prem = sum(prem), 
+            indem = sum(indem), 
+            lr = sum(indem) / sum(prem)) %>%
+  filter(year %in% c(2002, 2005, 2012)) ->
+  claims_rate_covlevel_plan_type
+
+## for the 3 years we selected above let's plot claim rate vs cover level
+## grouped by year so we can better understand the shape
+g_cov_level <- ggplot(claims_rate_covlevel_plan_type) + theme_economist() + scale_fill_economist() + 
+  facet_wrap(~ factor(PlanType, levels=c('Yield','Revenue'))) +
+  aes(y = claim_rate*100 , x = round(covLevel,2), 
+      color = as.character(year)) +
+  geom_point(stat="identity") +
+  geom_line(stat="identity") +
+  theme(legend.position="bottom", 
+        legend.direction="horizontal",
+        legend.title = element_blank()) +
+  labs(x="Coverage Level", y="Claim Rate (%)", 
+       title = "Yield Protection: Claim Rate by Coverage Level") +
+  scale_x_continuous(labels=function(x) sprintf("%.2f", x))
+g_cov_level
+
+
 ## create 3 CDFs to illustrate what's going on with the prior graph
 c_level <- seq( from=0, to=1.5, by=.1)
 
@@ -190,11 +222,84 @@ g_corn_price +
                                         ymin=0, ymax=0) , 
                 col=ggthemes_data$economist$fg[['red_dark']]
                 ) +
-  ggtitle("CBOT Corn and Yield Deviations")
+  ggtitle("CBOT Corn and IL Yield Deviations")
 
 years <- c( 1992, 1998, 2004, 2008)
 graph_list <- lapply(years, plot_corn_prices)
 do.call("grid.arrange", c(graph_list, ncol=2))
 
 
+plot_corn_prices(2008)
 
+
+## plot just IL corn yield with trend
+ggplot(il_corn_yield) + 
+  theme_economist() + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  aes(x=YEAR, y=plantedYield) +
+  geom_line(col=ggthemes_data$economist$fg[['blue_gray']], 
+            size = 2) +
+  geom_line(aes(y=trend_yield), 
+            col=ggthemes_data$economist$fg[['red_dark']], 
+            size = 2) +
+  theme(legend.position="bottom", 
+        legend.direction="horizontal",
+        legend.title = element_blank()) +
+  labs(x="Year", y="Yield") +
+  ggtitle("IL Planted Corn Yield") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  
+
+
+## plot detrended IL yield
+ggplot(il_corn_yield) + 
+  theme_economist() + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  aes(x=YEAR, y=yield_dev) +
+  geom_line(col=ggthemes_data$economist$fg[['blue_gray']], 
+            size = 2) + 
+  geom_hline(yintercept = 0, 
+             col=ggthemes_data$economist$fg[['red_dark']],
+             size=2) +
+  theme(legend.position="bottom", 
+        legend.direction="horizontal",
+        legend.title = element_blank()) +
+  labs(x="Year", y="Yield") +
+  ggtitle("IL Planted Corn Yield") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  
+
+
+# add boxplot
+library(tidyverse)
+library(ggthemes)
+il_corn_yield <- read_csv('https://raw.githubusercontent.com/CerebralMastication/Presentations/master/crop_yield_crosssections/data/il_corn_yield.csv')
+
+ggplot(il_corn_yield) + 
+  theme_economist() + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  aes(x=YEAR, y=yield_dev) +
+  geom_line(col=ggthemes_data$economist$fg[['blue_gray']], 
+            size = 2) + 
+  geom_hline(yintercept = 0, 
+             col=ggthemes_data$economist$fg[['red_dark']],
+             size=2) +
+  geom_boxplot(aes(x      = YEAR,
+                   middle = yield_dev,
+                   lower  = yield_dev - .05,
+                   upper  = yield_dev + .05,
+                   ymin   = yield_dev - .15,
+                   ymax   = yield_dev + .15),
+               stat = "identity", 
+               fill=ggthemes_data$economist$fg[['blue_light']] ) +
+  theme(legend.position="bottom", 
+        legend.direction="horizontal",
+        legend.title = element_blank()) +
+  labs(x="Year", y="Yield") +
+  ggtitle("IL Planted Corn Yield") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  
+
+  
+  
+  
