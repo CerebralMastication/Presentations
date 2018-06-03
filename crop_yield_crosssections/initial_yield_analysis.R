@@ -201,11 +201,11 @@ g_corn_price <- ggplot() +
   scale_fill_economist() + 
   scale_colour_economist() +
   geom_bar(aes(y = price_change , x = year), 
-            data = filter(corn_prices, year <=2008), 
+            data = filter(corn_prices, year <=2018), 
            stat="identity" , fill=ggthemes_data$economist$fg[['blue_gray']]) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
-  theme(legend.position="bottom", legend.direction="horizontal",
-        legend.title = element_blank()) +
+  # theme(legend.position="bottom", legend.direction="horizontal",
+  #       legend.title = element_blank()) +
   labs(x="Year", y="% Price Change Spring vs. Harvest") +
   ggtitle("CBOT December Contract Corn Prices")
 g_corn_price
@@ -214,13 +214,13 @@ g_corn_price
 il_corn_yield <- read_csv( './data/il_corn_yield.csv')
 il_corn_yield %>%
   filter(YEAR >= min(corn_prices$year) &
-         YEAR <= 2008) ->
+         YEAR <= 2018) ->
 il_corn_yield
 
 g_corn_price +
   geom_crossbar(data=il_corn_yield, aes(x=YEAR, y=yield_dev, 
                                         ymin=0, ymax=0) , 
-                col=ggthemes_data$economist$fg[['red_dark']]
+                col=ggthemes_data$economist$fg[['green_dark']]
                 ) +
   ggtitle("CBOT Corn and IL Yield Deviations")
 
@@ -300,6 +300,44 @@ ggplot(il_corn_yield) +
   ggtitle("IL Planted Corn Yield") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  
 
-  
-  
+
+
+
+IL <- usAphStateDraws[['2004.17.41']]
+il_cross_section <- data.frame(IL)
+write_csv(il_cross_section, './data/il_cross_section.csv')
+
+
+## PDF
+ggplot(il_cross_section) + 
+  theme_economist() + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  aes(x=IL) +
+  geom_density(size=1, 
+               col=ggthemes_data$economist$fg[['blue_dark']]) +
+  stat_function(fun=dnorm, 
+                args=list(mean=mean(il_cross_section$IL)+.035, sd=sd(il_cross_section$IL)), 
+                col=ggthemes_data$economist$fg[['red_dark']],
+                size=1, 
+                linetype = 5) 
+
+# CDF
+ggplot(il_cross_section) + 
+  theme_economist() + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  aes(x=IL) +
+  stat_ecdf(geom = "step") +
+  # geom_density(size=1, 
+  #              col=ggthemes_data$economist$fg[['blue_dark']]) +
+  stat_function(fun=pnorm, 
+                args=list(mean=mean(il_cross_section$IL)+.035, sd=sd(il_cross_section$IL)), 
+                col=ggthemes_data$economist$fg[['red_dark']],
+                size=1, 
+                linetype = 5) 
+
+
+
+
   

@@ -8,6 +8,7 @@ css: custom.css
 
 Disclaimer
 ========================================================
+class: small-code
 ```
 * I am sharing my personal views not the views of RenaissanceRe Holdings, Ltd. or any of its subsidiary companies.
 
@@ -238,7 +239,7 @@ g_corn_price <- ggplot() +
   scale_fill_economist() + 
   scale_colour_economist() +
   geom_bar(aes(y = price_change , x = year), 
-            data = filter(corn_prices, year <=2008), 
+            data = filter(corn_prices, year <=2018), 
            stat="identity" , fill=ggthemes_data$economist$fg[['blue_gray']]) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
   theme(legend.position="bottom", legend.direction="horizontal",
@@ -254,7 +255,7 @@ Price Changes with IL Yield
 il_corn_yield <- read_csv( './data/il_corn_yield.csv')
 il_corn_yield %>%
   filter(YEAR >= min(corn_prices$year) &
-         YEAR <= 2008) ->
+         YEAR <= 2018) ->
 il_corn_yield
 
 g_corn_price +
@@ -264,6 +265,7 @@ g_corn_price +
                 size=4) +
   ggtitle("CBOT Corn Price and IL Yield Deviations")
 ```
+Price is Red
 
 2008 Price Movement
 ========================================================
@@ -282,18 +284,53 @@ Oct 12, 2008 Yield Estimate
 Source: http://usda.mannlib.cornell.edu/usda/nass/CropProg//2000s/2008/CropProg-10-14-2008.pd
 </font>
 
+Does it matter? PDF
+========================================================
+```{r, echo=FALSE, fig.width=25, fig.height=12, fig.align='center'}
+il_cross_section <- read_csv('./data/il_cross_section.csv')
+
+ggplot(il_cross_section) + 
+  theme_economist(base_size = 45) + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  aes(x=IL) +
+  geom_density(size=3.5, 
+               col=ggthemes_data$economist$fg[['blue_dark']]) +
+  stat_function(fun=dnorm, 
+                args=list(mean=mean(il_cross_section$IL)+.035, sd=sd(il_cross_section$IL)), 
+                col=ggthemes_data$economist$fg[['red_dark']],
+                size=3.5, 
+                linetype = 5) +
+  ggtitle("Actual Yield vs Normal: PDF")
+```
+Does it matter? CDF
+========================================================
+```{r, echo=FALSE, fig.width=25, fig.height=12, fig.align='center'}
+ggplot(il_cross_section) + 
+  theme_economist(base_size = 45) + 
+  scale_fill_economist() + 
+  scale_colour_economist() +
+  aes(x=IL) +
+  stat_ecdf(geom = "step", size=3.5) +
+  stat_function(fun=pnorm, 
+                args=list(mean=mean(il_cross_section$IL)+.035, sd=sd(il_cross_section$IL)), 
+                col=ggthemes_data$economist$fg[['red_dark']],
+                size=3.5, 
+                linetype = 5)  +
+  ggtitle("Actual Yield vs Normal: CDF")
+```
+
+
 How'd we do? 
 ========================================================
 
 Well... it depends on what matters
+
 * Ground Up
 * Quota Share
+
 * XoL
 
-```{r, echo=FALSE}
-## plot IL actual CDF with normal estimated CDF?
-
-```
 Source
 ========================================================
 
