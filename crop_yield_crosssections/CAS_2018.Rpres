@@ -11,12 +11,9 @@ Disclaimer
 class: small-code
 ```
 * I am sharing my personal views not the views of RenaissanceRe Holdings, Ltd. or any of its subsidiary companies.
-
 * Thought provoking only: The materials are provided for information purposes only, are in summary form, and thus do not include all information necessary for analysis. 
-
 * This is not consulting: No representations or warranties are give as to the accuracy or completeness of the materials and no professional advice or guidance is given by the presentation. If you want to use these ideas, professional consultation should be sought. 
-
-* This is not financial advice: No financial advice is being given nor any recommendation to invest in any financial product. Historical data is presented and historical results/events give no assurance as to future results.
+* This is not financial advice: No financial advice is being given nor any recommendation to invest in any financial product. Historical data is no assurance as to future results.
 ```
 
 Source
@@ -25,7 +22,7 @@ Source
 All data, code, and examples: <http://bit.ly/cas_yield>.
 
 <div align="center">
-<img src="./CAS_2018-figure/github.png" width=900 >
+<img src="./CAS_2018-figure/github.png" width=700 >
 </div>
 Feel free to explore and create. 
 
@@ -159,7 +156,7 @@ ggplot(il_corn_yield) +
 
 What do we know?
 ========================================================
-<br>
+
 <div align="center">
 <img src="./CAS_2018-figure/normal_model.png" width=1300 >
 </div>
@@ -177,7 +174,7 @@ class: big-body
 <br><br>
 Story time... 
 
-Claims Rates by Coverage Level 
+Claims Rates by Cov Level 
 ========================================================
 ```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
 claims_rate_covlevel_il_corn <- read_csv('./data/claims_rate_covlevel_il_corn.txt')
@@ -203,9 +200,9 @@ g_cov_level <- ggplot() +
 g_cov_level
 ```
 
-APH vs. Revenue by Cov
+Yield & Rev by Coverage
 ========================================================
-```{r, echo=FALSE, fig.width=40, fig.height=25, fig.align='center'}
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
 claims_rate_covlevel_plan_type <- read_csv('./data/claims_rate_covlevel_plan_type')
 
 ## for the 3 years we selected above let's plot claim rate vs cover level
@@ -231,7 +228,7 @@ g_cov_level
 
 Historical Price Changes
 ============================
-```{r, echo=FALSE, fig.width=40, fig.height=25, fig.align='center'}
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
 corn_prices <- read_csv('./data/corn_prices.csv')
 
 g_corn_price <- ggplot() + 
@@ -250,7 +247,8 @@ g_corn_price
 ```
 Price Changes with IL Yield 
 ==============================
-```{r, echo=FALSE, fig.width=40, fig.height=25, fig.align='center'}
+class: vsmall-code
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
 ## superimpose yield changes over that image.... 
 il_corn_yield <- read_csv( './data/il_corn_yield.csv')
 il_corn_yield %>%
@@ -265,11 +263,11 @@ g_corn_price +
                 size=4) +
   ggtitle("CBOT Corn Price and IL Yield Deviations")
 ```
-Price is Red
+<font size=80%> Price is Red </font>
 
 2008 Price Movement
 ========================================================
-```{r, echo=FALSE, fig.width=50, fig.height=30, fig.align='center'}
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
 plot_corn_prices(2008)
 ```
 
@@ -286,7 +284,7 @@ Source: http://usda.mannlib.cornell.edu/usda/nass/CropProg//2000s/2008/CropProg-
 
 Does it matter? PDF
 ========================================================
-```{r, echo=FALSE, fig.width=25, fig.height=12, fig.align='center'}
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
 il_cross_section <- read_csv('./data/il_cross_section.csv')
 
 ggplot(il_cross_section) + 
@@ -305,7 +303,7 @@ ggplot(il_cross_section) +
 ```
 Does it matter? CDF
 ========================================================
-```{r, echo=FALSE, fig.width=25, fig.height=12, fig.align='center'}
+```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
 ggplot(il_cross_section) + 
   theme_economist(base_size = 45) + 
   scale_fill_economist() + 
@@ -328,7 +326,6 @@ Well... it depends on what matters
 
 * Ground Up
 * Quota Share
-
 * XoL
 
 Source
@@ -337,7 +334,7 @@ Source
 All data, code, and examples: <http://bit.ly/cas_yield>.
 
 <div align="center">
-<img src="./CAS_2018-figure/github.png" width=900 >
+<img src="./CAS_2018-figure/github.png" width=700 >
 </div>
 Feel free to explore and create. 
 
