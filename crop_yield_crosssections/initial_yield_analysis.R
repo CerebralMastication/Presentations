@@ -328,9 +328,7 @@ ggplot(il_cross_section) +
   scale_fill_economist() + 
   scale_colour_economist() +
   aes(x=IL) +
-  stat_ecdf(geom = "step") +
-  # geom_density(size=1, 
-  #              col=ggthemes_data$economist$fg[['blue_dark']]) +
+  stat_ecdf(geom = "step", size=1) +
   stat_function(fun=pnorm, 
                 args=list(mean=mean(il_cross_section$IL)+.035, sd=sd(il_cross_section$IL)), 
                 col=ggthemes_data$economist$fg[['red_dark']],

@@ -263,7 +263,7 @@ g_corn_price +
                 size=4) +
   ggtitle("CBOT Corn Price and IL Yield Deviations")
 ```
-<font size=80%> Price is Red </font>
+<font size=80%> IL Yield is Red </font>
 
 2008 Price Movement
 ========================================================
