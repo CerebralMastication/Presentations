@@ -1,7 +1,7 @@
-CARe 2018: Cross Sectional Yield Distributions
+Reporting Things I Wish I Had Learned Sooner
 ========================================================
 author: JD Long
-date: 2018-06-04
+date: 2018-10-24
 autosize: true
 font-family: 'Helvetica'
 css: custom.css
@@ -19,323 +19,64 @@ class: small-code
 Source
 ========================================================
 
-All data, code, and examples: <http://bit.ly/cas_yield>.
+All data, code, and examples: <https://github.com/CerebralMastication/Presentations/>
 
 <div align="center">
-<img src="./CAS_2018-figure/github.png" width=700 >
+<img src="./fig/github.png" width=700 >
 </div>
-Feel free to explore and create. 
+Feel free to take pictures of anything. Live tweet! **@cmastication**
 
-US MPCI Program Acres
-============================
-class: small-body
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-library(tidyverse)
-library(ggthemes)
-library(scales)
-library(gridExtra)
-source('./helper_functions.R')
-## read in summary of business data from csv
-sob_by_state_year_plan <- read_csv('./data/sob_by_state_year_plan.csv', 
-                                   col_types = cols(year = col_integer(), 
-                                                    PlanType = col_character(), 
-                                                    stAbbr = col_character(), 
-                                                    liab = col_double(), 
-                                                    prem = col_double(), 
-                                                    indem = col_double(), 
-                                                    acres = col_double() ) )
-sob_by_state_year_plan %>% 
-  filter(year <= 2017) ->
-  sob_by_state_year_plan
+What's Happening Here?
+========================================================
+class: big-body
+* Obligatory XKCD
+* Key Point: R Fits into Corporate Reporting
+* R Fits Better if You're Not an Asshole (empathy!)
+* 3 Easy Tricks to Try Tonight to Make Your Reporting Hotter 
 
-## US MPCI Acres by Product Type (Revenue vs. Yield)
-g_acres <- ggplot() + theme_economist(base_size = 45) + scale_fill_economist() +
-  geom_bar(aes(y = acres/1e6, x = year,  fill = PlanType), 
-           data = sob_by_state_year_plan, stat="identity") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  theme(legend.position="bottom", 
-        legend.direction="horizontal",
-        legend.title = element_blank() ) +
-  labs(x="Year", y="Acres (millions)") +
-  ggtitle("US MPCI Acres by Product Type")
-g_acres 
-```
-Source RMA Summary of Business
 
-US MPCI Program Premium
-===============================
-class: small-body
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-g_prem <- ggplot() + theme_economist(base_size = 45) + scale_fill_economist() +
-  geom_bar(aes(y = prem/1e9, x = year,  fill = PlanType), 
-           data = sob_by_state_year_plan, stat="identity")+
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
-  theme(legend.position="bottom", legend.direction="horizontal",
-        legend.title = element_blank()) +
-  labs(x="Year", y="Premium ($ B)") +
-  ggtitle("US MPCI Premium by Product Type")
-g_prem
-```
-Source RMA Summary of Business
-
-Yields Over Time
+Obligatory XKCD
 ========================================================
 
-
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-il_corn_yield <- read_csv( './data/il_corn_yield.csv')
-
-## plot just IL corn yield with trend
-ggplot(il_corn_yield) + 
-  theme_economist(base_size = 50) + 
-  scale_fill_economist() + 
-  scale_colour_economist() +
-  aes(x=YEAR, y=plantedYield) +
-  geom_line(col=ggthemes_data$economist$fg[['blue_gray']], 
-            size = 6) +
-  geom_line(aes(y=trend_yield), 
-            col=ggthemes_data$economist$fg[['red_dark']], 
-            size = 6) +
-  theme(legend.position="bottom", 
-        legend.direction="horizontal",
-        legend.title = element_blank()) +
-  labs(x="Year", y="Yield") +
-  ggtitle("IL Planted Corn Yield") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  
-```
-Yields Over Time Cont
-========================================================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-ggplot(il_corn_yield) + 
-  theme_economist(base_size = 50) + 
-  scale_fill_economist() + 
-  scale_colour_economist() +
-  aes(x=YEAR, y=yield_dev) +
-  geom_line(col=ggthemes_data$economist$fg[['blue_gray']], 
-            size = 6) + 
-  geom_hline(yintercept = 0, 
-             col=ggthemes_data$economist$fg[['red_dark']],
-             size=6) +
-  theme(legend.position="bottom", 
-        legend.direction="horizontal",
-        legend.title = element_blank()) +
-  labs(x="Year", y="Yield Deviation from Trend") +
-  ggtitle("IL Planted Corn Yield") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  
-```
-
-Yields Over Time Cont
-=====================================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-ggplot(il_corn_yield) + 
-  theme_economist(base_size = 50) + 
-  scale_fill_economist() + 
-  scale_colour_economist() +
-  aes(x=YEAR, y=yield_dev) +
-  geom_line(col=ggthemes_data$economist$fg[['blue_gray']], 
-            size = 6) + 
-  geom_hline(yintercept = 0, 
-             col=ggthemes_data$economist$fg[['red_dark']],
-             size=6) +
-  geom_boxplot(aes(x      = YEAR,
-                   middle = yield_dev,
-                   lower  = yield_dev - .05,
-                   upper  = yield_dev + .05,
-                   ymin   = yield_dev - .15,
-                   ymax   = yield_dev + .15),
-               stat = "identity", 
-               fill=ggthemes_data$economist$fg[['blue_light']] , 
-               size = 4) +
-  theme(legend.position="bottom", 
-        legend.direction="horizontal",
-        legend.title = element_blank()) +
-  labs(x="Year", y="Yield") +
-  ggtitle("IL Planted Corn Yield") +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  
-```
-
-What do we know?
-========================================================
-
+https://xkcd.com/1205/ 
 <div align="center">
-<img src="./CAS_2018-figure/normal_model.png" width=1300 >
+<img src="./fig/is_it_worth_the_time.png" width=900 >
 </div>
+
+Assumptions:
+========================================================
+class: big-body
+
+
+* All time is of equal value and is interchangeable
+* Current frequency of reporting = future freq
+* All activities are of equal utility
+* Automated and manual workflows produce the same product (errors?)
+
+
+
+
 
 ========================================================
 <br>
 <div align="center">
-<img src="./CAS_2018-figure/all-wrong.jpg" width=1300 >
+<img src="./fig/all-wrong.jpg" width=1300 >
 </div>
 
 
-Where Does it Break Down 
-========================================================
-class: big-body 
-<br><br>
-Story time... 
 
-Claims Rates by Cov Level 
-========================================================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-claims_rate_covlevel_il_corn <- read_csv('./data/claims_rate_covlevel_il_corn.txt')
-
-claims_rate_covlevel_il_corn %>% 
-  filter(year %in% c(2002, 2005, 2012)) ->
-claims_rate_covlevel_il_corn
-
-g_cov_level <- ggplot() + 
-  theme_economist(base_size = 50) + 
-  scale_fill_economist() +
-  geom_point(aes(y = claim_rate*100 , x = covLevel,  color = as.character(year)), 
-             data = claims_rate_covlevel_il_corn, stat="identity", 
-             size=10) +
-  geom_line(aes(y = claim_rate*100 , x = covLevel,  color = as.character(year)), 
-            data = claims_rate_covlevel_il_corn, stat="identity", 
-             size=6) +
-  theme(legend.position="bottom", legend.direction="horizontal",
-        legend.title = element_blank()) +
-  labs(x="Coverage Level", y="Claim Rate (%)") +
-  scale_x_continuous(limits=c(.5, 1), breaks = scales::pretty_breaks(n = 10))  +
-  ggtitle("Yield Protection: Claim Rate by Coverage Level")
-g_cov_level
-```
-
-Yield & Rev by Coverage
-========================================================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-claims_rate_covlevel_plan_type <- read_csv('./data/claims_rate_covlevel_plan_type')
-
-## for the 3 years we selected above let's plot claim rate vs cover level
-## grouped by year so we can better understand the shape
-g_cov_level <- ggplot(claims_rate_covlevel_plan_type) + 
-  theme_economist(base_size = 50) +   
-  scale_fill_economist() + 
-  facet_wrap(~ factor(PlanType, levels=c('Yield','Revenue'))) +
-  aes(y = claim_rate*100 , x = round(covLevel,2), 
-      color = as.character(year)) +
-  geom_point(stat="identity", 
-             size=12) +
-  geom_line(stat="identity", 
-             size=6) +
-  theme(legend.position="bottom", 
-        legend.direction="horizontal",
-        legend.title = element_blank()) +
-  labs(x="Coverage Level", y="Claim Rate (%)", 
-       title = "Yield Protection: Claim Rate by Coverage Level") +
-  scale_x_continuous(labels=function(x) sprintf("%.2f", x))
-g_cov_level
-```
-
-Historical Price Changes
-============================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-corn_prices <- read_csv('./data/corn_prices.csv')
-
-g_corn_price <- ggplot() + 
-  theme_economist(base_size = 45) + 
-  scale_fill_economist() + 
-  scale_colour_economist() +
-  geom_bar(aes(y = price_change , x = year), 
-            data = filter(corn_prices, year <=2018), 
-           stat="identity" , fill=ggthemes_data$economist$fg[['blue_gray']]) +
-  scale_x_continuous(breaks = scales::pretty_breaks(n = 10))  +
-  theme(legend.position="bottom", legend.direction="horizontal",
-        legend.title = element_blank()) +
-  labs(x="Year", y="% Price Change Spring vs. Harvest") +
-  ggtitle("CBOT December Contract Corn Prices")
-g_corn_price
-```
-Price Changes with IL Yield 
-==============================
-class: vsmall-code
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-## superimpose yield changes over that image.... 
-il_corn_yield <- read_csv( './data/il_corn_yield.csv')
-il_corn_yield %>%
-  filter(YEAR >= min(corn_prices$year) &
-         YEAR <= 2018) ->
-il_corn_yield
-
-g_corn_price +
-  geom_crossbar(data=il_corn_yield, aes(x=YEAR, y=yield_dev, 
-                                        ymin=0, ymax=0) , 
-                col=ggthemes_data$economist$fg[['red_dark']],
-                size=4) +
-  ggtitle("CBOT Corn Price and IL Yield Deviations")
-```
-<font size=80%> IL Yield is Red </font>
-
-2008 Price Movement
-========================================================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-plot_corn_prices(2008)
-```
-
-Oct 12, 2008 Yield Estimate
-========================================================
-
-<div align="center">
-<img src="./CAS_2018-figure/2008cpr.png" width=500 >
-</div>
-
-<font size="2">
-Source: http://usda.mannlib.cornell.edu/usda/nass/CropProg//2000s/2008/CropProg-10-14-2008.pd
-</font>
-
-Does it matter? PDF
-========================================================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-il_cross_section <- read_csv('./data/il_cross_section.csv')
-
-ggplot(il_cross_section) + 
-  theme_economist(base_size = 45) + 
-  scale_fill_economist() + 
-  scale_colour_economist() +
-  aes(x=IL) +
-  geom_density(size=3.5, 
-               col=ggthemes_data$economist$fg[['blue_dark']]) +
-  stat_function(fun=dnorm, 
-                args=list(mean=mean(il_cross_section$IL)+.035, sd=sd(il_cross_section$IL)), 
-                col=ggthemes_data$economist$fg[['red_dark']],
-                size=3.5, 
-                linetype = 5) +
-  ggtitle("Actual Yield vs Normal: PDF")
-```
-Does it matter? CDF
-========================================================
-```{r, echo=FALSE, fig.width=40, fig.height=20, fig.align='center'}
-ggplot(il_cross_section) + 
-  theme_economist(base_size = 45) + 
-  scale_fill_economist() + 
-  scale_colour_economist() +
-  aes(x=IL) +
-  stat_ecdf(geom = "step", size=3.5) +
-  stat_function(fun=pnorm, 
-                args=list(mean=mean(il_cross_section$IL)+.035, sd=sd(il_cross_section$IL)), 
-                col=ggthemes_data$economist$fg[['red_dark']],
-                size=3.5, 
-                linetype = 5)  +
-  ggtitle("Actual Yield vs Normal: CDF")
-```
-
-
-How'd we do? 
-========================================================
-
-Well... it depends on what matters
-
-* Ground Up
-* Quota Share
-* XoL
 
 Source
 ========================================================
+class: small-body
+All data, code, and examples: <https://github.com/CerebralMastication/Presentations/>
 
-All data, code, and examples: <http://bit.ly/cas_yield>.
+Hit me up on Twitter: **@cmastication**
 
+email me: <jdlong@gmail.com>
 <div align="center">
-<img src="./CAS_2018-figure/github.png" width=700 >
+<img src="./fig/twitter_jdlong.png" width=400 >
 </div>
-Feel free to explore and create. 
+
 
 
