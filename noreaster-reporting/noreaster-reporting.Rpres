@@ -1,7 +1,7 @@
 Reporting Things I Wish I Had Learned Sooner
 ========================================================
 author: JD Long
-date: 2018-10-24
+date: 2018-10-26
 autosize: true
 font-family: 'Helvetica'
 css: custom.css
@@ -35,6 +35,32 @@ class: big-body
 * Key Point: R Fits into Corporate Reporting
 * R Fits Better if You're Not an Asshole (empathy!)
 * 3 Easy Tricks to Try Tonight to Make Your Reporting Hotter 
+
+
+
+JD Who?
+========================================================
+<div align="center">
+<img src="./fig/so.png" width=1100 >
+
+</div>
+
+JD Who?
+========================================================
+<div align="center">
+<img src="./fig/twitter_jdlong.png" width=400 >
+
+</div>
+
+JD Who?
+========================================================
+<div align="center">
+<img src="./fig/devnull.jpg" width=1100 >
+</div>
+
+
+the unsinkable /dev/null
+
 
 
 Obligatory XKCD
@@ -109,13 +135,91 @@ It looks like you're doing a data science!
 </div>
 Would you like me to format your integers as dates?!?
 
-A Moment on Empathy...
+
+What Problem are We Solving
+========================================================
+* Reproducibility
+* Multiple Users
+* Easy to alter
+* Looks right to audience
+* Useful
+
+
+Structuring Reporting Workflow
+========================================================
+* Use R Studio Project structure
+* Keep all files in subdirectories in ***relative paths***
+* Naming convention - make it sort right
+* Sub Directories: make it easy to grok
+* Store DB passwords in environment variables. All scripts then read those. 
+
+
+Three homes for code in a Report:
+========================================================
+* Markdown File (*.rmd) - minimal
+* Sourced R script (*.R) - if other than layout of tables and charts
+* In a package (saved on corp github or similar) - if used more than 2 times
+
+
+Four Things to Always Use
 ========================================================
 
+* Params
+* `Worded` by David Gohel
+* `Flextable` by David Gohel
 
 
 
-Source
+Whatsit look like?
+========================================================
+
+```
+---
+title: "My Amazing Report"
+output:
+  worded::rdocx_document: 
+     reference_docx: 10_amazing_report_template.docx
+     toc: false
+     toc_depth: 2
+date: '2018-10-20'
+params:
+  snapshot_main:    'mycompany 2018-10-01 QuarterEnd'
+  snapshot_compare: 'mycompany 2018-07-01 QuarterEnd'
+---
+` ```{r, include=FALSE}
+myuser <- Sys.getenv('RENUID')
+mypwd <-  Sys.getenv('RENPWD')
+library(flextable)
+` ```
+```
+
+Play Well With Excel Tables
+========================================================
+
+```{r, eval=FALSE}
+library(openxlsx)
+
+xlfile <- 'my_junk.xlsx'
+wb <- loadWorkbook(xlfile)
+
+removeTable(wb = wb, sheet = 'Sheet1', table = "our_table")
+
+writeDataTable(
+  wb, sheet = 'Sheet1',
+  x = terr_lim_calc_local,
+  tableName = "our_table", 
+  startCol = 3, startRow = 10
+)
+
+saveWorkbook(wb = wb, file = xlfile, 
+             overwrite = TRUE)
+
+```
+
+
+
+
+JD Long
 ========================================================
 class: small-body
 All data, code, and examples: <https://github.com/CerebralMastication/Presentations/>
