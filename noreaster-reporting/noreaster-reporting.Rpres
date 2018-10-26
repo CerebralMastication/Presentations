@@ -22,23 +22,28 @@ library(flextable)
 
 Source
 ========================================================
+class: small-body
 
-All data, code, and examples: <https://github.com/CerebralMastication/Presentations/>
+All data, code, and examples: 
+[CerebralMastication/Presentations](https://github.com/CerebralMastication/Presentations/)
 
 <div align="center">
 <img src="./fig/github.png" width=700 >
 </div>
-Feel free to take pictures of anything. 
-
-Live tweet! **@cmastication**
+Take Pix, Dance, Ask, Tweet 
+**@cmastication**
 
 What's Happening Here?
 ========================================================
-class: big-body
-* Obligatory XKCD
-* Key Point: R Fits into Corporate Reporting
-* R in Corporate Reporting Fits Better if You're Not an Asshole (empathy!)
-* 3 Easy Tricks to Try Tonight to Make Your Reporting Hotter 
+class: medium-body 
+
+-- Obligatory XKCD
+
+-- Key Point: R Fits into Corporate Reporting
+
+-- R in Corporate Reporting Fits Better if You're Not an Asshole (empathy!)
+
+-- 3 Easy Tricks to Try Tonight to Make Your Reporting Hotter 
 
 
 
@@ -56,13 +61,6 @@ Stack Overflow...
 <img src="./fig/twitter_jdlong.png" width=400 >
 </div>
 
-Unsinkable /dev/null/
-========================================================
-<div align="center">
-<img src="./fig/devnull.png" width=1000 >
-</div>
-
-
 All Corporate Risk... All the Time
 ========================================================
 <div align="center">
@@ -72,14 +70,14 @@ All Corporate Risk... All the Time
 JD Who?
 ========================================================
 <div align="center">
-<img src="./fig/cookbook.png" width=500 >
+<img src="./fig/cookbook.png" width=400 >
 </div>
 
 
 Second Edition, Y'all!
 ========================================================
 <div align="center">
-<img src="./fig/cookbook2ed.png" width=500 >
+<img src="./fig/cookbook2ed.png" width=400 >
 </div>
 
 Speed Survey...
@@ -88,12 +86,11 @@ Speed Survey...
 * Who works at a "for profit" business?
 
 
-Obligatory XKCD
+https://xkcd.com/1205/ 
 ========================================================
 
-https://xkcd.com/1205/ - When to automate
 <div align="center">
-<img src="./fig/is_it_worth_the_time.png" width=900 >
+<img src="./fig/is_it_worth_the_time.png" width=700 >
 </div>
 
 
@@ -107,37 +104,39 @@ https://xkcd.com/1205/ - When to automate
 
 Assumptions:
 ========================================================
-class: big-body
+class: medium-body 
 
-
-* All time is of equal value and is interchangeable
-
-Assumptions:
-========================================================
-class: big-body
-
-
-* All time is of equal value and is interchangeable
-* Current frequency of reporting = future freq
+-- All time is of equal value and is interchangeable
 
 Assumptions:
 ========================================================
-class: big-body
+class: medium-body 
 
+-- All time is of equal value and is interchangeable
 
-* All time is of equal value and is interchangeable
-* Current frequency of reporting = future freq
-* All activities are of equal utility (nothing sucks your will to live!)
+-- Current frequency of reporting = future freq
 
 Assumptions:
 ========================================================
-class: big-body
+class: medium-body 
 
+-- All time is of equal value and is interchangeable
 
-* All time is of equal value and is interchangeable
-* Current frequency of reporting = future freq
-* All activities are of equal utility (nothing sucks your will to live!)
-* Automated and manual workflows produce the same product (errors?)
+-- Current frequency of reporting = future freq
+
+-- All activities are of equal utility (nothing sucks your will to live!)
+
+Assumptions:
+========================================================
+class: medium-body 
+
+-- All time is of equal value and is interchangeable
+
+-- Current frequency of reporting = future freq
+
+-- All activities are of equal utility (nothing sucks your will to live!)
+
+-- Automated and manual workflows produce the same product (errors?)
 
 
 A Moment on Empathy...
@@ -148,20 +147,21 @@ A Moment on Empathy...
 
 
 <div align="center">
-<img src="./fig/clippy.jpg" width=400 >
+<img src="./fig/clippy.jpg" width=300 >
 </div>
 
 
 ========================================================
+class: medium-body 
 
 It looks like you're doing a data science!
 <div align="center">
-<img src="./fig/clippy.jpg" width=400 >
+<img src="./fig/clippy.jpg" width=300 >
 </div>
 Would you like me to format your integers as dates?!?
 
 
-What Problem are We Solving
+What Problem are We Solving?
 ========================================================
 * Reproducibility
 * Multiple Users
@@ -172,49 +172,77 @@ What Problem are We Solving
 
 Structuring Reporting Workflow
 ========================================================
-* Use R Studio Project structure (or `here` package)
+class: medium-body 
+
+-- Use R Studio Project structure (or `here` package)
 
 Structuring Reporting Workflow
 ========================================================
-* Use R Studio Project structure (or `here` package)
-* Keep all files in sub directories in ***relative paths***
+class: medium-body 
+
+-- Use R Studio Project structure (or `here` package)
+
+-- Keep all files in sub directories in ***relative paths***
 
 Structuring Reporting Workflow
 ========================================================
-* Use R Studio Project structure (or `here` package)
-* Keep all files in sub directories in ***relative paths***
-* Naming convention - make it sort right
+class: medium-body 
+
+-- Use R Studio Project structure (or `here` package)
+
+-- Keep all files in sub directories in ***relative paths***
+
+-- Naming convention - make it sort right
 
 Structuring Reporting Workflow
 ========================================================
-* Use R Studio Project structure (or `here` package)
-* Keep all files in sub directories in ***relative paths***
-* Naming convention - make it sort right
-* Sub Directories: make it easy to grok
+class: medium-body 
+
+-- Use R Studio Project structure (or `here` package)
+
+-- Keep all files in sub directories in ***relative paths***
+
+-- Naming convention - make it sort right
+
+-- Sub Directories: make it easy to grok
 
 Structuring Reporting Workflow
 ========================================================
-* Use R Studio Project structure (or `here` package)
-* Keep all files in sub directories in ***relative paths***
-* Naming convention - make it sort right
-* Sub Directories: make it easy to grok
-* Store DB passwords in environment variables. All scripts then read those. 
+class: medium-body 
+
+-- Use R Studio Projects (or `here` package)
+
+-- Keep all files in ***relative paths***
+
+-- Naming convention: sorting
+
+-- Sub Directories: easy to grok
+
+-- Passwords in environ variables
 
 
-Three homes for code in a Report:
+Three Homes for Code:
 ========================================================
-* Markdown File (*.rmd) - minimal
-* Sourced R script (*.R) - if other than layout of tables and charts
-* In a package (saved on corp github or similar) - if used more than 2 times
+class: medium-body 
+
+-- Markdown File (*.Rmd) - minimal
+
+-- Sourced R script (*.R) - most here
+
+-- Package: if used more than 2 times
 
 
-Maintenance and Presentation Tips
+Tips:
 ========================================================
+class: small-body 
 
-* **`Params`** - Knitr YAML - For easy maintenance
-* **`Worded`** package by David Gohel - Page Breaks and page orientation hacks
-* **`Flextable`** package by David Gohel - Table formatting controls
-* **`Officer`** package by (guess who?) David Gohel! - more table formatting
+-- **`Params`** - Knitr YAML - For easy maintenance
+
+-- **`Worded`** package by David Gohel - Page Breaks and page orientation hacks
+
+-- **`Flextable`** package by David Gohel - Table formatting controls
+
+-- **`Officer`** package by (guess who?) David Gohel! - more table formatting
 
 
 Whatsit look like?
@@ -230,18 +258,33 @@ output:
      toc_depth: 2
 date: '2018-10-26'
 params:
-  snapshot_main:    'mycompany 2018-10-01 QuarterEnd'
-  snapshot_compare: 'mycompany 2018-07-01 QuarterEnd'
+  main:    'mycompany 2018-10-01'
+  compare: 'mycompany 2018-07-01'
 ---
+
+Whatsit look like?
+========================================================
+````
 `r ''````{r, include=FALSE}
 library(flextable)
 library(our_kickass_corp_package)
-my_corp_db_con <- our_db_connect(Sys.getenv('MYUID'), 
-                                 Sys.getenv('MYPWD'))
+
+my_corp_db_con <- 
+   our_db_connect(Sys.getenv('MYUID'), 
+                  Sys.getenv('MYPWD'))
 ````
+
 
 Flextable...
 ========================================================
+<div align="center">
+<img src="./fig/flextable.png" width=800 >
+</div>
+
+
+Flextable Continued...
+========================================================
+class: small-code
 
 ```{r, eval=FALSE}
 regulartable(my_cars) %>%
@@ -261,34 +304,52 @@ regulartable(my_cars) %>%
 
 Flextable Continued...
 ========================================================
+class: small-code
+
 ```{r, eval=FALSE}
   set_formatter(
-    `mpg`      = function(x)
-      formatC(x, digits = 1, format = "f", big.mark = ","),
-    `disp`     = function(x)
-      formatC(x, digits = 0, format = "f", big.mark = ","),
-    `hp`       = function(x)
-      formatC(x, digits = 0, format = "f", big.mark = ",")
+    `mpg` = function(x)
+      formatC(x, 
+              digits = 1, 
+              format = "f", 
+              big.mark = ","),
   ) 
   
 ```
-
-Flextable Continued...
-========================================================
-<div align="center">
-<img src="./fig/flextable.png" width=800 >
-</div>
 
 Figure Tip - Set DPI & sizes:
 ========================================================
 ````markdown
 `r ''````{r, echo=FALSE, dpi=300, fig.width=5, fig.height=2.9}
 
-## build figures
 
+
+
+Loop Output...
+========================================================
+
+<div align="center">
+<img src="./fig/group_loop.png" width=800 >
+</div>
+
+
+
+Child Doc Loop:
+========================================================
+class: small-code
+````markdown
+`r ''````{r, echo=FALSE}
+my_groups <- unique(mtcars$cyl)
+out <- list()
+for (group in my_groups){
+    out = c(out, knitr::knit_child('10_sub.Rmd'))
+}
 ```
-````
+Children are evaluated in the context (namespace etc.) of the parent
 
+```{r, eval=FALSE}
+`r paste(out, collapse='\n')`
+```
 
 Hack: Excel Output
 ========================================================
@@ -298,17 +359,15 @@ library(openxlsx)
 
 xlfile <- 'my_junk.xlsx'
 wb <- loadWorkbook(xlfile)
-
-removeTable(wb = wb, sheet = 'Sheet1', table = "our_table")
+removeTable(wb=wb, sheet='Sheet1', table="our_table")
 
 writeDataTable(
-  wb, sheet = 'Sheet1',
-  x = terr_lim_calc_local,
-  tableName = "our_table", 
-  startCol = 3, startRow = 10
+  wb, sheet='Sheet1', x=my_df,
+  tableName="our_table", 
+  startCol=3, startRow=10
 )
 
-saveWorkbook(wb = wb, file = xlfile, 
+saveWorkbook(wb=wb, file=xlfile, 
              overwrite = TRUE)
 
 ```
@@ -318,14 +377,13 @@ saveWorkbook(wb = wb, file = xlfile,
 
 JD Long
 ========================================================
-class: small-body
-All data, code, and examples: <https://github.com/CerebralMastication/Presentations/>
+class: small-body 
 
-Hit me up on Twitter: **@cmastication**
+Github: [CerebralMastication/Presentations](https://github.com/CerebralMastication/Presentations/)
 
-email me: <jdlong@gmail.com>
+Twitter: **@cmastication** Email: <jdlong@gmail.com>
 <div align="center">
-<img src="./fig/twitter_jdlong.png" width=400 >
+<img src="./fig/twitter_jdlong.png" width=250 >
 </div>
 
 

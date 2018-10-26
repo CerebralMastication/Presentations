@@ -1,0 +1,70 @@
+---
+title: "My Amazing Report"
+output:
+  worded::rdocx_document: 
+     toc: false
+     toc_depth: 2
+date: '2018-10-26'
+params:
+  min_cyl: 8
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(officer)
+library(flextable)
+```
+
+## Grab Some Cars Data
+
+Just as an example:
+
+```{r}
+mtcars %>%
+  rownames_to_column('car_name') %>%
+  filter(cyl >= params$min_cyl) %>%
+  select(car_name, mpg, disp, hp) ->
+  my_cars 
+
+head(my_cars,3)
+```
+
+## Flextable Output
+
+Flextable has two table making functions:
+
+1. `flextable` 
+1. `regulartable` - supports `set_formatter`
+
+```{r, echo=FALSE}
+regulartable(my_cars) %>%
+  color(i = 1, color = "#003e51", part = "header") %>%
+  autofit %>%
+  theme_zebra(odd_header = "transparent", even_header = "transparent") %>%
+  fontsize(size = 9, part = 'all') %>%
+  border_outer(border = officer::fp_border(color = "gray70", width = 2),
+               part = "all") %>%
+  align(       align = "center", part = 'header')  %>%
+  align(j = 1, align = "right", part = 'body')  %>%
+  align(j = 2:4, align = "center", part = 'body') %>%
+  set_formatter( `mpg`      = function(x) formatC(x, digits=1, format="f", big.mark=","),
+                 `disp`     = function(x) formatC(x, digits=0, format="f", big.mark=","),
+                 `hp`       = function(x) formatC(x, digits=0, format="f", big.mark=",")
+                 ) 
+  
+```
+
+
+```{r, include=FALSE}
+my_groups <- unique(mtcars$cyl)
+out <- list()
+for (group in my_groups){
+    out = c(out, knitr::knit_child('10_sub.Rmd'))
+}
+```
+Children are evaluated in the context (namespace etc.) of the parent
+
+`r paste(out, collapse='\n')`
+
+

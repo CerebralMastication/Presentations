@@ -43,6 +43,11 @@
     line-height: 110%;
     list-style-type: disc;
 }
+.medium-body p{
+    font-size: 135%;
+    line-height: 110%;
+    list-style-type: disc;
+}
 .small-body p{
     font-size: 100%;
     line-height: 100%;
