@@ -79,6 +79,7 @@ If you fail to migrate them to R you will at least have better Excel!
 
 ## {data-background=./fig/cantdoit.jpg data-background-size=cover}
 
+## {data-background=./fig/kathy_sierra_graph.jpg}
 
 ## JD's Lemma: {.medium-body}
 
