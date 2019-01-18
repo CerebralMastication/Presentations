@@ -1,5 +1,5 @@
 ---
-title: 'Empathy in Action: Corporate R'
+title: 'Empathy in Action'
 author: "JD Long"
 output:
   ioslides_presentation:
@@ -49,15 +49,11 @@ knitr::include_graphics("./fig/github.png")
 Take Pix, Dance, Ask, Tweet 
 **@cmastication**
 
-## 
+## JD's Lema: {.medium-body}
 
-JD's Lema:
-
-To migrate Excel analysts to R, help them be better at Excel first. 
+To migrate Excel analysts to R, help them be better at Excel. 
 
 Then help them use a bit of R for the painful parts. If you fail to migrate them to R you will at least have better Excel!
-
-Fail Safe! 
 
 ## @cmastication
 
@@ -81,18 +77,14 @@ Fail Safe!
 
 ## {data-background=./fig/fire_deadlift.gif }
 
-## {data-background=./fig/cantdoit.jpg}
+## {data-background=./fig/cantdoit.jpg data-background-size=cover}
 
 
-## 
+## JD's Lema: {.medium-body}
 
-JD's Lema:
-
-To migrate Excel analysts to R, help them be better at Excel first. 
+To migrate Excel analysts to R, help them be better at Excel. 
 
 Then help them use a bit of R for the painful parts. If you fail to migrate them to R you will at least have better Excel!
-
-Fail Safe! 
 
 
 ## {data-background=./fig/iris_excel.png}
@@ -103,18 +95,18 @@ Fail Safe!
 
 ## But that R Environemnt Though...
 
-## Jupyter Lab Loves R
+Shout out to [jupyter-rsession-proxy](https://github.com/jupyterhub/jupyter-rsession-proxy)
 
-<div align="center">
-<embed src="./fig/jupyterlab.gif" width=100% >
-</div>
-<sup>Shout out to [jupyter-rsession-proxy](https://github.com/jupyterhub/jupyter-rsession-proxy)</sup>
+## {data-background=./fig/jupyterlab.gif data-background-size=cover}
 
-## {data-background=./fig/vicegrips.jpg}
+## {data-background=./fig/vicegrips.jpg }
 
-## {data-background=./fig/vicegrip_AC.jpeg}
+## {data-background=./fig/vicegrip_AC.jpeg data-background-size=cover}
 
-## {data-background=./fig/vicegrip_dryer.jpeg}
+## {data-background=./fig/vicegrip_dryer.jpeg data-background-size=cover}
+
+## {data-background=./fig/vette.jpg data-background-size=cover}
+
 
 ## How To? {.bigcode}
 
@@ -129,65 +121,76 @@ wb <- loadWorkbook("iris_wb.xlsx")
 ```{r, eval=FALSE, echo=TRUE}
 writeDataTable(
   wb = wb,
-  sheet = 'iris_sheet',
+  sheet = "iris_sheet",
   x = iris,
   startCol = 1,
   startRow = 1,
   tableStyle = "TableStyleLight9",
-  tableName = 'iris_table')
+  tableName = "iris_table")
 saveWorkbook(wb = wb,
              file = "iris_wb.xlsx",
              overwrite = T)
 ```
 
-## https://xkcd.com/1205/ 
+## {data-background=./fig/is_it_worth_the_time.png}
 
-<div align="center">
-<img src="./fig/is_it_worth_the_time.png" width=80% >
-</div>
+## {data-background=./fig/all-wrong.jpg}
 
-## 
+## XKCD Assumptions: {.medium-body}
 
-<br>
-<div align="center">
-<img src="./fig/all-wrong.jpg" width=100% >
-</div>
+***Assumption:*** 
+
+All time is of equal value
 
 
-## (Wrong) Assumptions: {.medium-body}
+***Reality:*** 
 
-* All time is of equal value and is interchangeable
+Certain windows of time are precious. 
 
-* Current frequency of reporting = future freq
+## XKCD Assumptions: {.medium-body}
 
-* All time spent doing analytics is of equal utility 
-   * Are all tasks equal?
+***Assumption:*** 
 
-* Automated and manual workflows produce the same product 
-   * errors?
-   
-
-## {.medium-body}
-
-It looks like you're doing a data science!
-<div align="center">
-<img src="./fig/clippy.gif" width=50% >
-</div>
-Would you like me to format your integers as dates?!?
+Current frequency of reporting = future freq
 
 
+***Reality:*** 
 
+Once automated, reports find new uses.
+
+## XKCD Assumptions: {.medium-body}
+
+***Assumption:*** 
+
+All time spent doing analytics is of equal utility 
+
+
+***Reality:*** 
+
+Some tasks are so awful you just can't even...
+
+
+## XKCD Assumptions: {.medium-body}
+
+***Assumption:*** 
+
+Automated and manual workflows produce the same product.
+
+
+***Reality:*** 
+
+Manual processes breed errors. 
+ 
+## {data-background=./fig/10per.png}
+
+## {data-background=./fig/Office-R-github.png}
 
 ## Art by Allison Horst: `@allison_horst`
 
 <div align="center">
-<img src="./fig/allison_horst_twitter.png" width=40% >
+<img src="./fig/allison_horst_twitter.png" width=30% >
 </div>
 All drawn digitally with Procreate on iPad...
 
-## Art by Allison Horst @allison_horst 
 
-<div align="center">
-<img src="./fig/rmarkdown_art.jpg" width=100% >
-</div>
 

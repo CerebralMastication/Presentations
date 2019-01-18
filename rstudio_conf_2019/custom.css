@@ -27,7 +27,7 @@ slides > slide:not(.nobackground):after {
 
 .bigcode pre {
     font-size: 40px;
-    line-height: 40px;
+    line-height: 42px;
 }
 
 .small-code pre code {
@@ -44,8 +44,8 @@ slides > slide:not(.nobackground):after {
     list-style-type: disc;
 }
 .medium-body p{
-    font-size: 135%;
-    line-height: 110%;
+    font-size: 165%;
+    line-height: 155%;
     list-style-type: disc;
 }
 .small-body p{

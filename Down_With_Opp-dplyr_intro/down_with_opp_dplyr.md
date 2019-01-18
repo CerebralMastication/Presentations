@@ -748,13 +748,13 @@ df
 
 row-wise
 =========================
-
+Bug here... see next slide
 
 ```r
 df %>% 
   mutate( output = 
-              pmap(list(a=mn, b=mx, c=rng), fun)
-          )
+            pmap(list(a=mn, b=mx, c=rng), fun)
+        )
 ```
 
 ```
@@ -763,6 +763,59 @@ df %>%
 2  2 13   2     42
 3  3 18   3     63
 ```
+row-wise bug - the video
+========================
+
+Video Describing my mistake:
+http://bit.ly/pmap_bug
+
+I can't embed Loom video in this prez... no iframe support in *.rpres
+
+row-wise: my bug
+=========================
+`pmap` returns a list
+
+```r
+df %>% 
+  mutate(output = 
+          pmap(list(a=mn, b=mx, c=rng), fun)
+        ) -> 
+out_df
+str(out_df)
+```
+
+```
+'data.frame':	3 obs. of  4 variables:
+ $ mn    : num  1 2 3
+ $ mx    : num  8 13 18
+ $ rng   : num  1 2 3
+ $ output:List of 3
+  ..$ : num 36
+  ..$ : num 42
+  ..$ : num 63
+```
+row-wise: my bug cont
+=========================
+`pmap_dbl` returns vec of doubles
+
+```r
+df %>% 
+  mutate(output = 
+          pmap_dbl(list(a=mn, b=mx, c=rng), fun)
+        ) -> 
+out_df
+str(out_df)
+```
+
+```
+'data.frame':	3 obs. of  4 variables:
+ $ mn    : num  1 2 3
+ $ mx    : num  8 13 18
+ $ rng   : num  1 2 3
+ $ output: num  36 42 63
+```
+
+
 vector in a df cell
 =========================
 
