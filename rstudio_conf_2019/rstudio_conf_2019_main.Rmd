@@ -49,11 +49,11 @@ knitr::include_graphics("./fig/github.png")
 Take Pix, Dance, Ask, Tweet 
 **@cmastication**
 
-## JD's Lema: {.medium-body}
+## JD's Lemma: {.medium-body}
 
-To migrate Excel analysts to R, help them be better at Excel. 
+To migrate Excel analysts to coding, help them be better at Excel first. 
 
-Then help them use a bit of R for the painful parts. If you fail to migrate them to R you will at least have better Excel!
+If you fail to migrate them to R you will at least have better Excel!
 
 ## @cmastication
 
@@ -80,11 +80,11 @@ Then help them use a bit of R for the painful parts. If you fail to migrate them
 ## {data-background=./fig/cantdoit.jpg data-background-size=cover}
 
 
-## JD's Lema: {.medium-body}
+## JD's Lemma: {.medium-body}
 
-To migrate Excel analysts to R, help them be better at Excel. 
+To migrate Excel analysts to coding, help them be better at Excel first. 
 
-Then help them use a bit of R for the painful parts. If you fail to migrate them to R you will at least have better Excel!
+If you fail to migrate them to R you will at least have better Excel!
 
 
 ## {data-background=./fig/iris_excel.png}
@@ -93,7 +93,7 @@ Then help them use a bit of R for the painful parts. If you fail to migrate them
 
 ## {data-background=./fig/iris_excel_pivot.png}
 
-## But that R Environemnt Though...
+## But that R Environment Though...
 
 Shout out to [jupyter-rsession-proxy](https://github.com/jupyterhub/jupyter-rsession-proxy)
 
