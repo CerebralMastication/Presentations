@@ -1,0 +1,197 @@
+---
+title: 'Coding Outside of IT: Lessons on Automation From Risk Reporting'
+author: "JD Long"
+output:
+  ioslides_presentation:
+    incremental: true
+    widescreen: true
+    css: custom.css
+  powerpoint_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Disclaimer
+
+```
+* I am sharing my personal views not the views of RenaissanceRe 
+  or any of its subsidiary companies.
+  
+* Thought provoking only: The materials are provided for information 
+  purposes only and are in summary form.
+  
+* This is not consulting: No representations or warranties are given. 
+  If you want to use these ideas, hire a pro.
+  
+* This is not financial advice: No financial advice is being given 
+  nor any recommendation to invest in any product. 
+  
+* Historical data is no assurance as to future results.
+```
+```{r, include=FALSE}
+library(tidyverse)
+library(flextable)
+```
+
+
+## Source
+
+All data, code, and examples: 
+
+[CerebralMastication/Presentations](https://github.com/CerebralMastication/Presentations/)
+
+```{r, out.width = "100%"}
+knitr::include_graphics("./fig/github.png")
+```
+
+Take Pix, Dance, Ask, Tweet 
+**@cmastication**
+
+## JD's Lemma: {.medium-body}
+
+To migrate Excel analysts to coding, help them be better at Excel first. 
+
+If you fail to migrate them to R you will at least have better Excel!
+
+## @cmastication
+
+<div align="center">
+<img src="./fig/twitter_jdlong.png" width=300 >
+</div>
+
+## {data-background=./fig/rcookbook2e.png}
+
+## Corporations Are Sad Silos {data-background=./fig/Sad_Cubicles_2.png}
+
+## {data-background=./fig/Office-R-github.png}
+
+<sup>Art by Allison Horst</sup>
+
+## {data-background=./fig/tribalism.jpg data-background-size=cover}
+
+## {data-background=./fig/circus_tent_blueprint.png data-background-size=cover}
+
+## {data-background=./fig/avengers_strut.gif }
+
+## {data-background=./fig/fire_deadlift.gif }
+
+## {data-background=./fig/cantdoit.jpg data-background-size=cover}
+
+## {data-background=./fig/kathy_sierra_graph.jpg}
+
+## JD's Lemma: {.medium-body}
+
+To migrate Excel analysts to coding, help them be better at Excel first. 
+
+If you fail to migrate them to R you will at least have better Excel!
+
+
+## {data-background=./fig/iris_excel.png}
+
+## {data-background=./fig/iris_excel_formula.png}
+
+## {data-background=./fig/iris_excel_pivot.png}
+
+## But that R Environment Though...
+
+Shout out to [jupyter-rsession-proxy](https://github.com/jupyterhub/jupyter-rsession-proxy)
+
+## {data-background=./fig/jupyterlab.gif data-background-size=cover}
+
+## {data-background=./fig/vicegrips.jpg }
+
+## {data-background=./fig/vicegrip_AC.jpeg data-background-size=cover}
+
+## {data-background=./fig/vicegrip_dryer.jpeg data-background-size=cover}
+
+## {data-background=./fig/vette.jpg data-background-size=cover}
+
+
+## How To? {.bigcode}
+
+```{r, eval=FALSE, echo=TRUE}
+library(tidyverse)
+library(openxlsx)
+wb <- loadWorkbook("iris_wb.xlsx")
+```
+
+## Write & Save {.bigcode}
+
+```{r, eval=FALSE, echo=TRUE}
+writeDataTable(
+  wb = wb,
+  sheet = "iris_sheet",
+  x = iris,
+  startCol = 1,
+  startRow = 1,
+  tableStyle = "TableStyleLight9",
+  tableName = "iris_table")
+saveWorkbook(wb = wb,
+             file = "iris_wb.xlsx",
+             overwrite = T)
+```
+
+## {data-background=./fig/is_it_worth_the_time.png}
+
+## {data-background=./fig/all-wrong.jpg}
+
+## XKCD Assumptions: {.medium-body}
+
+***Assumption:*** 
+
+All time is of equal value
+
+
+***Reality:*** 
+
+Certain windows of time are precious. 
+
+## XKCD Assumptions: {.medium-body}
+
+***Assumption:*** 
+
+Current frequency of reporting = future freq
+
+
+***Reality:*** 
+
+Once automated, reports find new uses.
+
+## XKCD Assumptions: {.medium-body}
+
+***Assumption:*** 
+
+All time spent doing analytics is of equal utility 
+
+
+***Reality:*** 
+
+Some tasks are so awful you just can't even...
+
+
+## XKCD Assumptions: {.medium-body}
+
+***Assumption:*** 
+
+Automated and manual workflows produce the same product.
+
+
+***Reality:*** 
+
+Manual processes breed errors. 
+ 
+## {data-background=./fig/10per.png}
+
+## {data-background=./fig/Office-R-github.png}
+
+## Art by Allison Horst: `@allison_horst`
+
+<div align="center">
+<img src="./fig/allison_horst_twitter.png" width=30% >
+</div>
+All drawn digitally with Procreate on iPad...
+
+
+
