@@ -46,8 +46,8 @@ slides > slide:not(.nobackground):after {
     list-style-type: disc;
 }
 .medium-body p{
-    font-size: 165%;
-    line-height: 155%;
+    font-size: 145%;
+    line-height: 135%;
     list-style-type: disc;
 }
 .small-body p{
