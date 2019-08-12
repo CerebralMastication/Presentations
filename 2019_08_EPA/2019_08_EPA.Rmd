@@ -64,7 +64,7 @@ http://CerebralMastication.com/
 ```{r, out.width = "45%"}
 knitr::include_graphics("./fig/qr.png")
 ```
-https://github.com/CerebralMastication/Presentations/
+https://github.com/CerebralMastication/Presentations/tree/master/2019_08_EPA
 
 ## Most Common Programming Language in Both Business and Government: {.medium-body .build}
 
