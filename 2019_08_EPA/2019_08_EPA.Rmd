@@ -60,11 +60,11 @@ Take Pix, Dance, Ask, Tweet  **@cmastication**
 
 http://CerebralMastication.com/
 
-## QR Code Example
-
-
-## Quick Survey
-
+## QR Code!!
+```{r, out.width = "45%"}
+knitr::include_graphics("./fig/qr.png")
+```
+https://github.com/CerebralMastication/Presentations/
 
 ## Most Common Programming Language in Both Business and Government: {.medium-body .build}
 
@@ -88,8 +88,6 @@ http://CerebralMastication.com/
 </div>
 
 ## {data-background=./fig/rcookbook2e.png}
-
-## {data-background=./fig/brands.png}
 
 ## {data-background=./fig/rnr.jpg data-background-size=cover}
 
@@ -118,10 +116,10 @@ To migrate Excel analysts to coding, help them be better at Excel first.
 If you fail to migrate them to coding, you will at least have better Excel!
 
 
-## Corporations Are Sad Silos {data-background=./fig/Sad_Cubicles_2.png}
+## Workplaces Are Sad Silos {data-background=./fig/Sad_Cubicles_2.png}
 
 
-## {data-background=./fig/Office-R-github.png}
+## They Could be a Party! {data-background=./fig/Office-R-github.png}
 
 <sup>Art by Allison Horst</sup>
 
@@ -130,7 +128,7 @@ If you fail to migrate them to coding, you will at least have better Excel!
 
 ## {data-background=./fig/circus_tent_blueprint.png data-background-size=cover}
 
-## How do Business Analysts See Themselves... 
+## How do Analysts See Themselves... 
 
 ## {data-background=./fig/avengers_strut.gif }
 
@@ -242,12 +240,14 @@ Example Design Pattern:
 ```{r, eval=FALSE, echo=TRUE}
 library(tidyverse)
 library(openxlsx)
-wb <- loadWorkbook("iris_wb.xlsx")
+
 ```
 
-## Write & Save {.bigcode}
+## Write & Save - openxlsx {.small-code}
 
 ```{r, eval=FALSE, echo=TRUE}
+wb <- loadWorkbook("iris_wb.xlsx")
+
 writeDataTable(
   wb = wb,
   sheet = "iris_sheet",
@@ -256,10 +256,14 @@ writeDataTable(
   startRow = 1,
   tableStyle = "TableStyleLight9",
   tableName = "iris_table")
+
 saveWorkbook(wb = wb,
              file = "iris_wb.xlsx",
              overwrite = T)
 ```
+
+
+## Repeatable Tasks...
 
 ## {data-background=./fig/is_it_worth_the_time.png}
 
@@ -309,51 +313,29 @@ Automated and manual workflows produce the same product
 ***Reality:*** 
 
 Manual processes breed errors
+
+## Automation... 
+
+* lets us do the work when we're less busy
+* changes how frequently we look at our analysis
+* makes the computer do the painful work
+* reduces errors
  
 ## {data-background=./fig/10per.png}
 
 ## {data-background=./fig/Office-R-github.png}
 
 
-## Why R & Python? {.big-body}
+## Python & R Interoperability  {.medium-body}
 
-***Python*** - Existing Code, IT adoption
+**rpy2** - Start in Python and run some R
 
-***R*** - Powerful, Approachable, Workflow from Database to Output
+Great for running R from Airflow 
 
-## Example R Table Output {.small-body}
-```{r, echo=TRUE, results='asis'}
-df_cars  %>%
-  filter(hp > 90) %>%
-  group_by(cyl) %>%
-  summarize(avg_hp = mean(hp)) %>%
-  gt() %>%
-  fmt_number(columns = vars(avg_hp), decimals = 1) %>%
-  tab_header(title = "What a Pretty Table!")
-```
+**reticulate** - Start in R and run some Python
 
-## Example R Plotting
+Great for running Python in R Markdown, Shiny, RStudio
 
-```{r, echo=TRUE}
-ggplot(df_cars, mapping = aes(x = as.factor(cyl), y = hp)) +
-  geom_boxplot()
-```
-
-## Example R Plotting 
-
-```{r, echo=TRUE}
-ggplot(df_cars, mapping = aes(x = disp, y = hp)) +
-  geom_point()
-```
-
-
-## Render Same Source Different Output 
-
-<img src="./fig/knit.png" width="120%"/>
-
-## Render Same Source Different Output {data-background=./fig/alltypes.png}
-
-<!-- <img src="./fig/alltypes.png" width="60%"/> -->
 
 ## Different Languages in R Markdown
 ````markdown
@@ -392,17 +374,52 @@ x.split(' ')
 ```{python}
 x.split(' ')
 ```
+
+## Design Patterns that Build Bridges
+
+## {data-background=./fig/coupling.jpg data-background-size=cover}
+
+## {data-background=./fig/train_mail.gif data-background-size=cover}
+
+## Loosely Coupled Workflows
+
+## {data-background=./fig/airflow.png }
+
+## {data-background=./fig/api.png }
+
+## Helper Tools Build Bridges
+
+* esquisse - GUI for building ggplots
+
+## {data-background=./fig/esquisse.gif }
+
+## Helper Tools Build Bridges
+
+* clipr - copy dataframes from RStudio (paste in Excel!)
+
+<div align="center">
+<img src="./fig/clipr.png" width=300 >
+</div>
+
+## Helper Tools Build Bridges
+
+* datapasta - copy form Excel to R!
+
+<div align="center">
+<img src="./fig/datapasta.gif"  >
+</div>
 
 
 ## What's the Point? {.medium-body}
 
 * Excel is Your Most Used Programming Language
 
-* Lower the Friction to Helping Business Users Adopt Additional Tools
+* We Can Lower the Friction to Helping Users Adopt Additional Tools
 
 * Don't Boil the Ocean: 10% Improvement
 
-* Business, Automate Yourself 
+* Automate Yourself 
+
 
 
 ## Art by Allison Horst: `@allison_horst`
@@ -411,6 +428,8 @@ x.split(' ')
 <img src="./fig/allison_horst_twitter.png" width=30% >
 </div>
 All drawn digitally with Procreate on iPad...
+
+https://github.com/allisonhorst/stats-illustrations
 
 
 
