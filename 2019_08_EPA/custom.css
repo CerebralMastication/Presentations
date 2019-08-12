@@ -1,0 +1,59 @@
+.section .reveal .state-background {
+    background: black;}
+slides > slide:not(.nobackground):after {
+  content: '';
+}
+
+/* body text, ordered and unordered list styles 
+.reveal ul, 
+.reveal ol,
+.reveal li, 
+.reveal p{
+    font-size: 300%;
+    line-height: 250%;
+    list-style-type: disc;
+}
+*/
+
+/* slide titles */
+.reveal h3 { 
+  font-size: 200%;
+  font-weight: 500;
+}
+
+/* heading for slides with two hashes ## */
+.reveal .slides section .slideContent h2 {
+   font-size: 40px;
+   font-weight: bold;
+}
+
+.bigcode pre {
+    font-size: 40px;
+    line-height: 42px;
+}
+
+.small-code pre code {
+  font-size: 125%; 
+}
+
+.vsmall-code pre code {
+  font-size: 100%; 
+}
+
+.big-body p{
+    font-size: 250%;
+    line-height: 110%;
+    list-style-type: disc;
+}
+.medium-body p{
+    font-size: 145%;
+    line-height: 135%;
+    list-style-type: disc;
+}
+.small-body p{
+    font-size: 100%;
+    line-height: 100%;
+    list-style-type: disc;
+}
+
+
